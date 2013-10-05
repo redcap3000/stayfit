@@ -1,3 +1,5 @@
+/* @override http://localhost:3000/client/css/main.css?daa54d387bafab9c902884c718fac695b1152a87 */
+
 /* @override http://localhost:3000/client/css/client.css?2abc91705a4dceb9deb5d732b6fa4cc88467d831 */
 
 html, body {
@@ -163,13 +165,10 @@ div.infoWindow p strong {
 
 #map_canvas { 
   height: 100%;
-  position: absolute;
-  left: 13.5em;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  width: 75%;
   overflow: hidden;
   min-width: 30em;
+  float: right;
 }
 
 
@@ -275,12 +274,6 @@ margin-top: .5em;
 	
 }
 
-div#the_markers {
-	border-top: 1px solid gray;
-	margin-top: .5em;
-	float: left;
-	background-color: black;
-}
 
 form.span {
 margin: 0;
@@ -305,24 +298,9 @@ li.locInfoWindow {
 	width: 23em;float: left;margin: 0;padding: 0;height: 24.25em;
 }
 
-div#locations_menu {
-	position: fixed;
-	z-index: 100;
-	right: 0;top: 35px;
-	min-width: 20%;
-	max-width: 25%;
-	background-color: white;
-	height: 100%;
-	z-index: 1;
-	opacity: .7;
-	overflow: auto;
+
+
+#map_canvas div.gm-style div {
 	
-}
-#locations_menu ul{
-	color: black;
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	padding: .55em;
 }
 

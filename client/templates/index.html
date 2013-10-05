@@ -19,9 +19,8 @@
     </div>
     
 </div>
-
+    
     {{#if currentUser}}
-        
         
         {{>map}}
 
@@ -31,6 +30,28 @@
     
 </template>
 
+
+
+<template name="sidebar">
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3 well">
+        Sports
+    </div>
+    <div class="span3 well">
+        Calender
+    </div>
+    <div class="span3 well">
+        Places
+    </div>
+    <div class="span3 well">
+        Expenses
+    </div>
+    
+  </div>
+</div>
+</template>
 <template name="loggedInTemplate">
 
 <div class="container-fluid">
@@ -80,5 +101,10 @@
 
 
 <template name="map">
-<div class="map" id="map_canvas"></div>
+<div class="container">
+<div class="span4">item 1</div>
+</div>
+
+<div class="span4 map" id="map_canvas"></div>
+
 </template>

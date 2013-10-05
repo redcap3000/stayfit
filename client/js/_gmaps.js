@@ -27,6 +27,8 @@ createMap = function(latLng) {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    // disable this ASAP
+    setMapCenter();
 },
 placeNavMarker = function(latLng,title) {
     if(typeof title == 'undefined'){
