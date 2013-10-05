@@ -1,1 +1,328 @@
-/* CSS declarations go here */
+/* @override http://localhost:3000/client/css/client.css?2abc91705a4dceb9deb5d732b6fa4cc88467d831 */
+
+html, body {
+
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    font-family: "Arial";
+    color:black;
+}
+label.status{
+ position: fixed;
+ left:50%;
+ top:.25em;
+ float: left;
+ text-align: center;
+ z-index: 10;
+ background-color: white;
+ padding: 1% 2%;
+ opacity: 0.86;
+ max-width: 25%;
+ font-weight: bold;
+ font-variant: small-caps;
+}
+h1{
+    color:black;
+}
+
+#map_canvas  h1 {
+width: 11.75em;clear: both;
+margin: 0;padding: 0;
+color: red;width: auto;	text-align:center;
+}
+
+p {
+	font-size: .75em;letter-spacing:.1em;margin: 1em;
+}
+
+div.infoWindow p {
+float: left;	font-size: 1em;width: 5em;
+}
+
+div .instaLocPost {
+	color: white;
+	float: left;
+	position: relative;
+	top: -24em;
+	height: 7.5em;
+	overflow: auto;
+	background-color: maroon;
+	clear: both;
+	padding-left: .55em;
+	width: 23em;
+	opacity: 0.9;
+	padding-bottom: .25em;
+}
+
+
+.instaLocPost p {
+width: 95%;overflow: auto;
+margin: 0;
+padding: 1.25em;
+padding: 0;
+font-size: 1em;
+}
+.instaLocPost h1{
+	float: left!IMPORTANT;
+	clear: both!IMPORTANT;
+	z-index: 1000 !IMPORTANT;
+}
+.instaLocPost h5 {
+	width: 50%;float: left;
+	font-size: 1em;
+}
+
+.instaLocPost b{
+	padding-top: 1.55em;float: left;
+	font-size: 1em;
+}
+
+#map_canvas div a img{
+	float: left;clear: both;width: auto;
+	min-height: 23.5em;
+}
+
+ul.locInfoContainer {
+float: left;overflow: hidden;
+}
+
+li.title {
+	min-width: 23.5em;
+	padding: 1em 0;
+}
+
+#map_canvas div.gm-style div div div div div div.gm-style-iw div. {
+overflow: hidden;
+}
+
+div.span.focus_marker {
+	margin: 0;
+	padding: 0;
+	display: block;
+	cursor: pointer;
+
+}
+
+a.instaUser,#the_markers div.span.focus_marker.instaMarker a {
+background-color: white;
+	padding: .5em;
+	float: right;
+	opacity: 0.85;
+	margin-top: -98%;
+}
+
+
+#the_markers div.span.focus_marker img {
+	float: left;clear:left;
+
+}
+
+
+
+div.infoWindow b {
+color: blue;
+clear: both;float: right;
+}
+
+b.instaTitle {
+	color: black !IMPORTANT;
+	clear: both;
+	margin-top: 1em;
+}
+
+div.infoWindow p {
+	float: right;	width: 14em;
+}
+
+div.infoWindow p strong {
+	float: right;
+	clear: both;
+}
+#the_markers div.span.focus_marker b{
+	clear: both;float: left;width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+#login-name-link {
+	margin-top: .5em;
+	font-size: .8em;
+	margin-right: .5em;
+}
+
+#login-buttons-facebook,div.or {
+    display: none;
+}
+
+.infoWindow{
+    color:black;
+    
+}
+
+#map_canvas { 
+  height: 100%;
+  position: absolute;
+  left: 13.5em;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  min-width: 30em;
+}
+
+
+#login-name-link {
+	width: 100%;
+}
+
+#login-dropdown-list {
+margin-top: 3em;
+margin-left: 13.35em;
+}
+
+
+.close {
+  position:fixed;
+  top: 20px;
+  opacity: .8;
+  z-index: 9999;
+  right: 20px;
+  padding:5px;
+}
+.close:hover{
+  opacity:1;
+}
+
+.login{
+  font-size: 1em;
+  float: left;
+  width:7.25em;
+  height: 3.5em;
+  text-align: right;
+  padding: .4em 0;
+  background-color: silver;
+  z-index: 10;
+  color: black;
+  position: static;
+}
+
+#login-dropdown-list {
+	width: 8.75em;
+	margin: 0 !IMPORTANT;
+	position: absolute;
+	margin-left: -12em;
+}
+
+div.additional-link-container {
+	float: left;
+	padding: .5em 0;
+}
+
+#login-name-link {
+	font-size: .55em;
+}
+
+a.btn.user_self {
+	margin-top: 2em;
+	float: right;
+}
+
+fieldset {
+font-size: .65em; padding: .4em;float: left;clear: right;
+}
+
+#main_menu {
+    height: 95%;
+	background-color: black;
+	color: white;
+}
+
+
+#main_menu ul{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	line-height: 2em;
+	font-size: .75em;
+}
+
+#main_menu div.span ul li {
+	padding: .5em 0;
+	line-height: 1.2em;
+}
+
+span.span.add-on {
+	color: green;
+	width: 5em;
+}
+
+#login-buttons-password {
+	height: auto;float: left;clear: both;width: 90%;
+}
+
+div#login-dropdown-list.accounts-dialog {
+	margin-top: 1.7em;
+	margin-right: -3em;	
+	position: absolute;
+}
+
+#map_canvas em {
+float: right;
+clear: both;
+margin-top: .5em;
+	
+}
+
+div#the_markers {
+	border-top: 1px solid gray;
+	margin-top: .5em;
+	float: left;
+	background-color: black;
+}
+
+form.span {
+margin: 0;
+	margin-top: 1em;
+}
+
+#main_menu div.span {
+	color: white !IMPORTANT;
+	margin: 0;
+	padding:  0 .5em;
+	line-height: 1em;
+}
+ul{
+	margin: 0;
+	padding: 0;
+	width:100%;overflow: visible;
+	visibility: visible;
+}
+
+
+li.locInfoWindow {
+	width: 23em;float: left;margin: 0;padding: 0;height: 24.25em;
+}
+
+div#locations_menu {
+	position: fixed;
+	z-index: 100;
+	right: 0;top: 35px;
+	min-width: 20%;
+	max-width: 25%;
+	background-color: white;
+	height: 100%;
+	z-index: 1;
+	opacity: .7;
+	overflow: auto;
+	
+}
+#locations_menu ul{
+	color: black;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	padding: .55em;
+}
+

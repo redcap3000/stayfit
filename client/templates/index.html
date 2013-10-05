@@ -1,5 +1,7 @@
 <head>
   <title>stayfit</title>
+      <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+
 </head>
 
 <body>
@@ -16,14 +18,15 @@
         </div>
     </div>
     
-    {{#if currentUser}}
-        
-        {{>loggedInTemplate}}
-    {{else}}
-        Not logged in
-    {{/if}}
 </div>
 
+    {{#if currentUser}}
+        
+        
+        {{>map}}
+
+    {{/if}}
+    
 
     
 </template>
@@ -73,4 +76,9 @@
     </div>
 </div>
 
+</template>
+
+
+<template name="map">
+<div class="map" id="map_canvas"></div>
 </template>

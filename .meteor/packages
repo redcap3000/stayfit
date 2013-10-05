@@ -7,7 +7,6 @@ standard-app-packages
 autopublish
 insecure
 preserve-inputs
-bootstrap
 accounts-base
 accounts-password
 accounts-facebook
