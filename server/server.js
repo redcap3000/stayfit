@@ -157,6 +157,15 @@ Meteor.publish("userSettings",function(userId,vCode){
         return user_settings.find({owner:userId, status:1});
     }
 });
+
+
+
+Meteor.publish("userEvents",function(userId){
+    console.log('publishing');
+    if(typeof userId != "undefined" && userId != null){
+        return user_events.find({owner:userId});
+    }
+});
 /* PUBLISH EXAMPLES 
 
 Meteor.publish("allLocations",function(idFilter){
@@ -272,7 +281,13 @@ Meteor.methods({
         }else{
             console.log('confirmation email already sent');
         }
+    },
+    createEvent : function(userId,obj){
+        // probably validate obj ...
+        var cpy = obj;
+        cpy.owner = userId;
+        return user_events.insert(obj);
+        
     }
-    
     
 });

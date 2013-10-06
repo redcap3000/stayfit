@@ -89,21 +89,11 @@
                 {{else}}
                 <div class="dialog">
                     <div class="block">
-                        <p class="block-heading">Sign In</p>
+                        <p class="block-heading">Welcome</p>
                         <div class="block-body">
-                            <form>
-                                <label>email</label>
-                                <input type="email" id="login-email" class="span12"></input>
-                                <label>Password</label>
-                                <input id="login-password" type="password" class="span12">
-                                <a href="#" id="login-buttons-password" class="btn btn-primary pull-right login-button login-button-form-submit">Sign In</a>
-                          
-                                <div class="clearfix"></div>
-                            </form>
+                            <strong>Find fit fun fast.</strong>
                         </div>
                     </div>
-                    <p class="pull-right" style=""><a href="sign-up.html">New User? Signup!</a></p>
-                    <p><a href="reset-password.html">Forgot your password?</a></p>
                 </div>
                 {{/if}}
                 <footer>
@@ -203,9 +193,9 @@
 
 <template name="new_event">
 
-    <div class="well span5">
+    <div class="well span6">
         <div id="myTabContent" class="tab-content">
-            <form id="tab">
+            <form>
                 <legend>Create a new Event</legend>
                 <label>TItle</label>
                 <input type="text" class="input-xlarge eventTitle">
@@ -218,7 +208,7 @@
                 
                 
                 <label>Activity</label>
-                <select name="eventLocation" id="eventActivity" class="input-xlarge eventLocation">
+                <select name="eventLocation" id="eventActivity" class="input-xlarge eventActivity">
                     <option value="baseball">Baseball</option>
                     <option value="soccer">Soccer</option>
                     <option value="basketball">Basketball</option>
@@ -238,10 +228,10 @@
                 <label>Estimated Total Expenses</label>
                 <input type="text" class="input-xlarge eventExpense">
                 <div class="clearFix"></div>
+                <label>Details</label>
                 <textarea rows="3" class="input-xlarge eventDetails"></textarea>
                 <div class="clearFix"></div>
-
-                <button class="btn btn-primary createEvent">Create</button>
+                <a href="#" class="btn btn-primary pull-left createEvent">Create</a>
             </form>
         </div>
     </div>
@@ -264,11 +254,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>My First Event</td>
-                            <td>$400</td>
-                            <td>12-12-13</td>
-                            <td>The Park</td>
-                            <td>Soccer</td>
+                            {{#each getEvents}}
+                            <td>{{title}}</td>
+                            <td>{{expense}}</td>
+                            <td>{{date}}</td>
+                            <td>{{location}}</td>
+                            <td>{{activity}}</td>
+                            {{/each}}
                         </tr>
                         
                     </tbody>

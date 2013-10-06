@@ -11,12 +11,16 @@ Template.public_view.rendered = function(){
 
 Meteor.startup(function(){
     if(Meteor.userId()){
+    
+         var user_events_sub = Meteor.subscribe("userEvents",Meteor.userId());
         if(Session.get("vCode")){
             console.log('vCode found!');
             var user_settings_sub = Meteor.subscribe("userSettings", Meteor.userId(),Session.get("vCode"));
             // doesnt report invalid validation codes yet... hmmmm
         }else{
             var user_settings_sub = Meteor.subscribe("userSettings",Meteor.userId());
+            
+            
             // do we have a vCode?
         }
     
@@ -24,6 +28,9 @@ Meteor.startup(function(){
         // check if user_settings is empty
         if(the_user_settings){
             console.log('user found');
+            
+           
+            
             
         }else{
             Session.set("doRefferal",true);
@@ -94,8 +101,24 @@ Template.public_view.notClickedSMS = function(){
 };
 
 
-Template.accountVerification.code = function(){
-    ;
-};
+Template.new_event.events = {
+    "click .createEvent" : function(evt,tmpl){
+        alert('Make this happen');
+        console.log('here');
+        var title = tmpl.find('.eventTitle').value;
+        var location = tmpl.find('.eventLocation').value;
+        var activity = tmpl.find('.eventActivity').value;
+        var date = tmpl.find('.eventDate').value;
+        var time = tmpl.find('.eventTime').value;
+        var expense = tmpl.find('.eventExpense').value;
+        var details = tmpl.find('.eventDetails').value;
 
 
+        Meteor.call('createEvent',Meteor.userId(),{title:title,location:location,activity:activity,date:date,time:time,expense:expense,details:details},function(error,result){if(typeof error == 'undefined') console.log(result);});
+    }
+
+}
+
+Template.users_events.getEvents = function(){
+    return user_events.find();
+}

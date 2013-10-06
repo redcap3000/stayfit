@@ -34,7 +34,11 @@ read_only_permissions = {
 
 user_settings = new Meteor.Collection("user_settings");
 
+user_events = new Meteor.Collection("user_events");
+
 user_settings.allow(default_permissions);
+
+user_events.allow(default_permissions);
 
 
 /*
