@@ -22,17 +22,29 @@
     {{#if isVerified}}
      <!-- show 'groupwear' type stuff? -->
     {{else}}
-     <p>Please verify your account</p>
+    
+    
+    <form>
+    
+    <fieldset>     <label>Please verify your account</label>
         
         <input class="accountVerification" type="input"/>
         <input type="submit" class="accountSubmit" >
-        
-        <p>Send code</p>
-        
-        <input type="input" class="smsPhone" placeholder="Phone number no spaces"/>SMS
-        <input type="submit" class="sendCodeSubmit" >
+        </fieldset>
+
+    
     
         
+        <fieldset>
+                <label>Send Confirmation Code</label>
+        <input type="button" class="sendCodeEmail" value="Send Via Email" >
+        <fieldset>
+            <input type="input" class="smsPhone" placeholder="Phone number no spaces"/>  <input type="submit" class="sendCodeSubmit"  value="Send SMS">
+        </fieldset>
+
+        </fieldset>
+        
+        </form>
     {{/if}}
   </div>
   

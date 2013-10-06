@@ -74,6 +74,14 @@ Template.public_view.events = {
             console.log('number provided');
             }
         
+    },
+    "click .sendCodeEmail": function(evt,tmpl){
+        console.log('click');
+        // gets user email address based on accounts collection?
+        var meteor_email = Meteor.user(),
+        meteor_email = meteor_email.emails[0].address;
+        // mehhhhh cant do this on backend ?
+        Meteor.call('sendEmail',Meteor.userId(),meteor_email);
     }
 };
 

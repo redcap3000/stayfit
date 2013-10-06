@@ -251,6 +251,27 @@ Meteor.methods({
           ));
         
 
+    },
+    
+    sendEmail : function(userId,address){
+        // verify userId exists and  check status : 0
+            
+        var confirmation = user_settings.findOne({owner:userId});
+        
+        if(confirmation && typeof confirmation.vCode != 'undefined'){
+            var message = 'Your confirmation code for stayfit.meteor.com is ' + confirmation.vCode;
+        
+            var to_name = 'User';
+            var subject = 'Confirmation Code';
+            var sendgrid_user = 'pooran';
+            var sendgrid_key = '0nd3ckcup';
+            var base_url = 'https://sendgrid.com/api/mail.send.json?api_user='+sendgrid_user+'&api_key='+sendgrid_key+'&to='+address+'&toname='+to_name+'&subject=Example_Subject&text='+message+'&from=donotreply@stayfit.meteor.com';
+                
+            console.log(Meteor.http.get(base_url));
+            
+        }else{
+            console.log('confirmation email already sent');
+        }
     }
     
     
