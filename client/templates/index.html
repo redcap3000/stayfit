@@ -128,6 +128,11 @@
 
     {{>new_event}}
     
+    
+    {{>new_activity}}
+    
+    
+    {{>new_location}}
      <!-- show 'groupwear' type stuff? -->
     {{else}}
         <div class="alert alert-info">
@@ -201,19 +206,19 @@
                 <input type="text" class="input-xlarge eventTitle">
                 <label>Location</label>
                 <select name="eventLocation" id="eventLocation" class="input-xlarge eventLocation">
-                  <option value="a">Location A</option>
-                  <option value="b">Location B</option>
+                    
+                    {{#each getLocations}}
+                    <option value="{{title}}">{{title}}</option>
+                    {{/each}}
                 </select>
                 
                 
                 
                 <label>Activity</label>
                 <select name="eventLocation" id="eventActivity" class="input-xlarge eventActivity">
-                    <option value="baseball">Baseball</option>
-                    <option value="soccer">Soccer</option>
-                    <option value="basketball">Basketball</option>
-                    <option value="football">Football (US)</option>
-                    <option value="other">Football (US)</option>
+                    {{#each getActivities}}
+                    <option value="{{title}}">{{title}}</option>
+                    {{/each}}
                 </select>
                 
                 
@@ -236,6 +241,37 @@
         </div>
     </div>
 </template>
+<template name="new_activity">
+     <div class="well span6">
+        <div id="myTabContent" class="tab-content">
+            <form>
+                <legend>Create a new Activity</legend>
+                <label>TItle</label>
+                <input type="text" class="input-xlarge activityTitle">
+                <a href="#" class="btn btn-primary pull-left createActivity">Create</a>
+            </form>
+        </div>
+    </div>
+
+</template>
+
+<template name="new_location">
+     <div class="well span6">
+        <div id="myTabContent" class="tab-content">
+            <form>
+                <legend>Create a new location</legend>
+                <label>Title</label>
+                <input type="text" class="input-xlarge locationTitle">
+                
+                <label>Address</label>
+                <input type="text" class="input-xlarge locationAddress">
+                
+                <a href="#" class="btn btn-primary pull-left createLocation">Create</a>
+            </form>
+        </div>
+    </div>
+
+</template>
 
 <template name="users_events">
     <div class="row-fluid">
@@ -250,6 +286,7 @@
                             <th>Time</th>
                             <th>Location</th>
                             <th>Activity</th>
+                            <th>Invite Participants</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -260,6 +297,7 @@
                             <td>{{date}}</td>
                             <td>{{location}}</td>
                             <td>{{activity}}</td>
+                            <td><a id="{{_id}}">Invite</a></td>
                             {{/each}}
                         </tr>
                         

@@ -36,10 +36,17 @@ user_settings = new Meteor.Collection("user_settings");
 
 user_events = new Meteor.Collection("user_events");
 
+user_activities = new Meteor.Collection("user_activities");
+
+user_locations = new Meteor.Collection("user_locations");
+
 user_settings.allow(default_permissions);
 
 user_events.allow(default_permissions);
 
+user_activities.allow(default_permissions);
+
+user_locations.allow(default_permissions);
 
 /*
 insta_grams = new Meteor.Collection("insta_grams"),

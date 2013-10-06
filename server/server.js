@@ -161,11 +161,25 @@ Meteor.publish("userSettings",function(userId,vCode){
 
 
 Meteor.publish("userEvents",function(userId){
-    console.log('publishing');
+    //console.log('publishing');
     if(typeof userId != "undefined" && userId != null){
         return user_events.find({owner:userId});
     }
 });
+
+
+Meteor.publish("userActivities",function(userId){
+    if(typeof userId != "undefined" && userId != null){
+        return user_activities.find({owner:userId});
+    }
+});
+
+Meteor.publish("userLocations",function(userId){
+    if(typeof userId != "undefined" && userId != null){
+        return user_locations.find({owner:userId});
+    }
+});
+
 /* PUBLISH EXAMPLES 
 
 Meteor.publish("allLocations",function(idFilter){
@@ -288,6 +302,18 @@ Meteor.methods({
         cpy.owner = userId;
         return user_events.insert(obj);
         
+    },
+    createLocation : function(userId,obj){
+        var cpy = obj;
+        cpy.owner = userId;
+        return user_locations.insert(obj);
+        
+    },
+    
+    createActivity : function(userId,obj){
+       var cpy = obj;
+        cpy.owner = userId;
+        user_activities.insert(cpy);
     }
     
 });

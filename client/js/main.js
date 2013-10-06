@@ -12,7 +12,12 @@ Template.public_view.rendered = function(){
 Meteor.startup(function(){
     if(Meteor.userId()){
     
-         var user_events_sub = Meteor.subscribe("userEvents",Meteor.userId());
+        var user_events_sub = Meteor.subscribe("userEvents",Meteor.userId());
+        
+        var user_activities_sub = Meteor.subscribe("userActivities",Meteor.userId());
+        var user_locations_sub = Meteor.subscribe("userLocations",Meteor.userId());
+        
+        
         if(Session.get("vCode")){
             console.log('vCode found!');
             var user_settings_sub = Meteor.subscribe("userSettings", Meteor.userId(),Session.get("vCode"));
@@ -119,6 +124,38 @@ Template.new_event.events = {
 
 }
 
+
+Template.new_activity.events = {
+    "click .createActivity" : function(evt,tmpl){
+        var title = tmpl.find('.activityTitle').value;
+        
+        Meteor.call('createActivity',Meteor.userId(),{title:title},function(error,result){if(typeof error == 'undefined') console.log(result);});
+    }
+
+}
+
+Template.new_location.events = {
+    "click .createLocation" : function(evt,tmpl){
+        var title = tmpl.find('.locationTitle').value;
+        var address = tmpl.find('.locationAddress').value;
+        Meteor.call('createLocation',Meteor.userId(),{title:title,address:address},function(error,result){if(typeof error == 'undefined') console.log(result);});
+    }
+
+}
+
 Template.users_events.getEvents = function(){
     return user_events.find();
 }
+
+Template.new_event.getActivities = function(){
+    console.log('find');
+    return user_activities.find();
+}
+
+Template.new_event.getLocations = function(){
+    console.log('getting location');
+    return user_locations.find();
+};
+
+
+
