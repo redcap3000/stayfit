@@ -257,7 +257,7 @@ Meteor.methods({
         // verify userId exists and  check status : 0
             
         var confirmation = user_settings.findOne({owner:userId});
-        
+        console.log('send email');
         if(confirmation && typeof confirmation.vCode != 'undefined'){
             var message = 'Your confirmation code for stayfit.meteor.com is ' + confirmation.vCode;
         

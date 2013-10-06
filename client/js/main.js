@@ -1,10 +1,10 @@
 Template.public_view.rendered = function(){
         if(typeof map == 'undefined'){
-            console.log('creating map')
-            createMap();
+            //console.log('creating map')
+            //createMap();
             
         }else{
-            setMapCenter();
+            //setMapCenter();
         }
 }
 
@@ -71,19 +71,28 @@ Template.public_view.events = {
             // actual text is provided via sms
             // pass meteor userid to get user_settings.vCode value ...
             Meteor.call('sendSMS',sms,Meteor.userId());
-            console.log('number provided');
+            Session.set('SMSSent',true);
             }
         
     },
     "click .sendCodeEmail": function(evt,tmpl){
-        console.log('click');
         // gets user email address based on accounts collection?
         var meteor_email = Meteor.user(),
         meteor_email = meteor_email.emails[0].address;
         // mehhhhh cant do this on backend ?
         Meteor.call('sendEmail',Meteor.userId(),meteor_email);
+        this.clicked= true;
+        Session.set('emailSent',true);
     }
 };
+Template.public_view.notClicked = function(){
+    return (Session.get('emailSent') ? false:true);
+};
+
+Template.public_view.notClickedSMS = function(){
+    return (Session.get('SMSSent') ? false:true);
+};
+
 
 Template.accountVerification.code = function(){
     ;
