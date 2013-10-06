@@ -134,83 +134,26 @@
 
     {{#if isVerified}}
 
+    {{>users_events}}
+
     {{>new_event}}
-     <div class="row-fluid">
-                    <div class="block span6">
-                        <a href="#tablewidget" class="block-heading" data-toggle="collapse">Users<span class="label label-warning">+10</span></a>
-                        <div id="tablewidget" class="block-body collapse in">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Username</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Mark</td>
-                                        <td>Tompson</td>
-                                        <td>the_mark7</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashley</td>
-                                        <td>Jacobs</td>
-                                        <td>ash11927</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Audrey</td>
-                                        <td>Ann</td>
-                                        <td>audann84</td>
-                                    </tr>
-                                    <tr>
-                                        <td>John</td>
-                                        <td>Robinson</td>
-                                        <td>jr5527</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Aaron</td>
-                                        <td>Butler</td>
-                                        <td>aaron_butler</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Chris</td>
-                                        <td>Albert</td>
-                                        <td>cab79</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p><a href="users.html">More...</a></p>
-                        </div>
-                    </div>
-                    
-                </div>
-
-     
-
     
      <!-- show 'groupwear' type stuff? -->
     {{else}}
-    
-        
         <div class="alert alert-info">
-        
-        
-        
-        <div class="block">
-            <p class="block-heading">Please verify your account</p>
-            <div class="block-body">
-                <form>
-                    <label>Confirmation Code</label>
-                    <input type="text" class="span12 accountVerification">
-                    <a href="#" class="btn btn-primary pull-right accountSubmit">Verify</a>
-                    <label class="remember-me"><input type="checkbox"> I agree with the <a href="terms-and-conditions.html">Terms and Conditions</a></label>
-                    <div class="clearfix"></div>
-                </form>
+            <div class="block">
+                <p class="block-heading">Please verify your account</p>
+                <div class="block-body">
+                    <form>
+                        <label>Confirmation Code</label>
+                        <input type="text" class="span12 accountVerification">
+                        <a href="#" class="btn btn-primary pull-right accountSubmit">Verify</a>
+                        <label class="remember-me"><input type="checkbox"> I agree with the <a href="terms-and-conditions.html">Terms and Conditions</a></label>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
             </div>
-        </div>
-        
-        
+
         <div class="block">
             <p class="block-heading">Send Confirmation Code</p>
             <div class="block-body">
@@ -225,6 +168,7 @@
             </div>
         </div>
         </div>
+    <!-- end row-fluid -->
     </div>
 
     
@@ -247,95 +191,100 @@
             
     </div>
 </template>
-<template name="accountVerification">
-</template>
-
-<template name="loggedInTemplate">
-
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span3 well">
-        Sports
-    </div>
-    <div class="span3 well">
-        Calender
-    </div>
-    <div class="span3 well">
-        Places
-    </div>
-    <div class="span3 well">
-        Expenses
-    </div>
-    
-  </div>
-</div>
-</template>
 
 <template name="nav">
-
     <div class="navbar">
         <div class="navbar-inner">
             <a class="brand" href="index.html"><span class="first">Stay</span> <span class="second">Fit</span></a>
         </div>
     </div>
-
-
-
-
 </template>
 
 
 <template name="new_event">
 
+    <div class="well span5">
+        <div id="myTabContent" class="tab-content">
+            <form id="tab">
+                <legend>Create a new Event</legend>
+                <label>TItle</label>
+                <input type="text" class="input-xlarge eventTitle">
+                <label>Location</label>
+                <select name="eventLocation" id="eventLocation" class="input-xlarge eventLocation">
+                  <option value="a">Location A</option>
+                  <option value="b">Location B</option>
+                </select>
+                
+                
+                
+                <label>Activity</label>
+                <select name="eventLocation" id="eventActivity" class="input-xlarge eventLocation">
+                    <option value="baseball">Baseball</option>
+                    <option value="soccer">Soccer</option>
+                    <option value="basketball">Basketball</option>
+                    <option value="football">Football (US)</option>
+                    <option value="other">Football (US)</option>
+                </select>
+                
+                
+                <label>Date</label>
+                <input type="text" class="input-xlarge eventDate">
+                
+                
+                <label>Time</label>
+                <input type="text" class="input-xlarge eventTime">
+                
+                
+                <label>Estimated Total Expenses</label>
+                <input type="text" class="input-xlarge eventExpense">
+                <div class="clearFix"></div>
+                <textarea rows="3" class="input-xlarge eventDetails"></textarea>
+                <div class="clearFix"></div>
 
+                <button class="btn btn-primary createEvent">Create</button>
+            </form>
+        </div>
+    </div>
+</template>
 
-
-<div class="well">
-    <div id="myTabContent" class="tab-content">
-    <form id="tab">
-        <legend>Create a new Event</legend>
-        <label>TItle</label>
-        <input type="text" class="input-xlarge eventTitle">
-        <label>Location</label>
-        <select name="eventLocation" id="eventLocation" class="input-xlarge eventLocation">
-          <option value="a">Location A</option>
-          <option value="b">Location B</option>
-        </select>
-        
-        <label>Date</label>
-        <input type="text" class="input-xlarge eventDate">
-        
-        
-        <label>Time</label>
-        <input type="text" class="input-xlarge eventTime">
-        
-        
-        <label>Estimated Total Expenses</label>
-        <input type="text" class="input-xlarge eventExpense">
-        <div class="clearFix"></div>
-        <textarea rows="3" class="input-xlarge eventDetails"></textarea>
-        <div class="clearFix"></div>
-
-        <button class="btn btn-primary createEvent">Create</button>
-    </form>
-      
-  </div>
-</div>
-
-
+<template name="users_events">
+    <div class="row-fluid">
+        <div class="block span12">
+            <a href="#tablewidget" class="block-heading" data-toggle="collapse">Events<span class="label label-warning">Upcoming</span></a>
+            <div id="tablewidget" class="block-body collapse in">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Expense</th>
+                            <th>Time</th>
+                            <th>Location</th>
+                            <th>Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>My First Event</td>
+                            <td>$400</td>
+                            <td>12-12-13</td>
+                            <td>The Park</td>
+                            <td>Soccer</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 </template>
 
+<template name="event_outcomes">
 
+
+
+<!-- for events that have passed.. to keep track of them also to add an area to report final score -->
+</template>
 <template name="map">
-<div class="container">
-{{loggedInTemplate}}
-
-
-
-<div class="span4">item 1</div>
-</div>
-
-<div class="span4 map" id="map_canvas"></div>
-
+<div class="container"><div class="span4 map" id="map_canvas"></div>
 </template>
