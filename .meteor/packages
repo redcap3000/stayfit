@@ -10,6 +10,6 @@ accounts-base
 accounts-password
 accounts-facebook
 accounts-twitter
-accounts-ui-unstyled
 random
 http
+accounts-ui

@@ -1,3 +1,5 @@
+/* @override http://localhost:3000/client/css/main.css?9b4ad11d806bd8ef11936d32fe8e285a6fdd523a */
+
 /* @override http://localhost:3000/client/css/main.css?daa54d387bafab9c902884c718fac695b1152a87 */
 
 /* @override http://localhost:3000/client/css/client.css?2abc91705a4dceb9deb5d732b6fa4cc88467d831 */
@@ -148,11 +150,7 @@ div.infoWindow p strong {
 	margin: 0;
 }
 
-#login-name-link {
-	margin-top: .5em;
-	font-size: .8em;
-	margin-right: .5em;
-}
+
 
 #login-buttons-facebook,div.or {
     display: none;
@@ -173,7 +171,10 @@ div.infoWindow p strong {
 
 
 #login-name-link {
-	width: 100%;
+	width: 90%;
+	margin-left: 5%;
+	padding: .15em 0;
+	float: left;
 }
 
 #login-dropdown-list {
@@ -219,9 +220,7 @@ div.additional-link-container {
 	padding: .5em 0;
 }
 
-#login-name-link {
-	font-size: .55em;
-}
+
 
 a.btn.user_self {
 	margin-top: 2em;
@@ -301,6 +300,21 @@ li.locInfoWindow {
 
 
 #map_canvas div.gm-style div {
+	
+}
+
+#login-buttons { float: left;width: 100%;
+z-index: 100 !important;
+}
+
+#login-dropdown-list {
+	width: 100%;
+	z-index: 100;
+	clear: both;
+	float: left;
+}
+
+#login-buttons-open-change-password {
 	
 }
 

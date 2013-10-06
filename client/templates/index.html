@@ -80,6 +80,7 @@
             <li class="active">Dashboard</li>
         </ul>
         {{/if}}
+      
         <div class="container-fluid">
             <div class="row-fluid">
                 {{#if currentUser}}
@@ -333,6 +334,7 @@
 </template>
 <template name="sidebar">
     <div class="sidebar-nav">
+        <div class="block">{{loginButtons}}</div>
         <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-dashboard"></i>Dashboard</a>
         <ul id="dashboard-menu" class="nav nav-list collapse in">
             <li><a href="/">Home</a></li>
@@ -342,6 +344,8 @@
             <li><a href="calendar.html">Calendar</a></li><li><a href="expenses.html">Expenses</a></li>
         </ul>
         <a href="faq.html" class="nav-header"><i class="icon-cog"></i>Faq</a>
+        
+            
     </div>
 </template>
 <template name="accountVerification">
@@ -372,25 +376,6 @@
 
     <div class="navbar">
         <div class="navbar-inner">
-            <ul class="nav pull-right">
-
-                <li><a href="#" class="hidden-phone visible-tablet visible-desktop" role="button">Settings</a></li>
-                <li id="fat-menu" class="dropdown">
-                    <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon-user"></i>{{loginButtons}}
-                           
-                        <i class="icon-caret-down"></i>
-                    </a>
-
-                    <ul class="dropdown-menu">
-                       
-                       
-                        <li><a tabindex="-1" class="visible-phone" href="#">Settings</a></li>
-                        <li class="divider visible-phone"></li>
-                    </ul>
-                </li>
-
-            </ul>
             <a class="brand" href="index.html"><span class="first">Stay</span> <span class="second">Fit</span></a>
         </div>
     </div>
