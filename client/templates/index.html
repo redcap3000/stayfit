@@ -207,19 +207,25 @@
                 <input type="text" class="input-xlarge eventTitle">
                 <label>Location</label>
                 <select name="eventLocation" id="eventLocation" class="input-xlarge eventLocation">
-                    
+                    {{#if getLocations}}
                     {{#each getLocations}}
                     <option value="{{title}}">{{title}}</option>
                     {{/each}}
+                    {{else}}
+                    <option value="">Please add a location on the right</option>
+                    {{/if}}
                 </select>
-                
-                
                 
                 <label>Activity</label>
                 <select name="eventLocation" id="eventActivity" class="input-xlarge eventActivity">
+                    {{#if getActivities}}
                     {{#each getActivities}}
                     <option value="{{title}}">{{title}}</option>
                     {{/each}}
+                    {{else}}
+                    <option value="">Please add an activity on the right</option>
+                    {{/if}}
+
                 </select>
                 
                 

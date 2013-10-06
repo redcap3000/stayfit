@@ -149,12 +149,13 @@ Template.users_events.getEvents = function(){
 
 Template.new_event.getActivities = function(){
     console.log('find');
-    return user_activities.find();
+    var q= user_activities.find().fetch();
+    return (q.length > 0 ? q : false);
 }
 
 Template.new_event.getLocations = function(){
-    console.log('getting location');
-    return user_locations.find();
+    var q= user_locations.find().fetch();
+    return (q.length > 0 ? q : false);
 };
 
 
