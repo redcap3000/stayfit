@@ -32,6 +32,11 @@ read_only_permissions = {
  *   insta_locations_grams  = feeds from insta_locations, stored via insta_location id
  */
 
+user_settings = new Meteor.Collection("user_settings");
+
+user_settings.allow(default_permissions);
+
+
 /*
 insta_grams = new Meteor.Collection("insta_grams"),
 insta_locations = new Meteor.Collection("insta_locations"),

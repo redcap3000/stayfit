@@ -18,19 +18,36 @@
         </div>
     </div>
     
-</div>
     
-    {{#if currentUser}}
+    {{#if isVerified}}
+     <!-- show 'groupwear' type stuff? -->
+    {{else}}
+     <p>Please verify your account</p>
         
+        <input class="accountVerification" type="input"/>
+        <input type="submit" class="accountSubmit" >
+        
+        <p>Send code</p>
+        
+        <input type="input" class="smsPhone" placeholder="Phone number no spaces"/>SMS
+        <input type="submit" class="sendCodeSubmit" >
+    
+        
+    {{/if}}
+  </div>
+  
+    
+    
         {{>map}}
 
-    {{/if}}
+    
     
 
     
 </template>
 
-
+<template name="accountVerification">
+</template>
 
 <template name="sidebar">
 
@@ -102,6 +119,10 @@
 
 <template name="map">
 <div class="container">
+{{loggedInTemplate}}
+
+
+
 <div class="span4">item 1</div>
 </div>
 
