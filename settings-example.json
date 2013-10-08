@@ -1,0 +1,25 @@
+{
+    "moves" : {
+         "client_id" : "",
+ 	     "client_secret" : "",
+	     "redirect_uri": ""
+    },
+
+    "fitbit" : {
+	      "consumer_key" : "",
+              "consumer_secret" : "",
+	      "request_token_url" : "",
+	      "request_access_token_url" : "",
+	      "authorize_url" : ""
+
+     },
+    "sendGrid" : {
+	      "user" : "",
+              "key" : ""
+
+    },
+   "twilio" : {
+	 "account_sid": "",
+	 "auth_token" : ""
+    }
+}
