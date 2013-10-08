@@ -9,7 +9,6 @@ preserve-inputs
 accounts-base
 accounts-password
 accounts-facebook
-accounts-twitter
 random
 http
 accounts-ui

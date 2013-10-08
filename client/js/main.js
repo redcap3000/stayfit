@@ -143,6 +143,35 @@ Template.new_location.events = {
 
 }
 
+Template.send_sms_reminder.events = {
+    "click .sendSMSReminder" : function(evt,tmpl){
+        console.log('here');
+        var number = tmpl.find('.smsPhoneNumber').value;
+        var activity = tmpl.find('.smsReminderActivity').value;
+        
+        console.log(user_activities.findOne({_id : activity}));
+        var sms = 'You have an activity' +
+            Meteor.call('sendSMS',sms,Meteor.userId());
+
+        
+//        Meteor.call('sendSMS',Meteor.userId(),number,activity);
+        }
+    };
+
+// for email
+Template.send_reminder.events = {
+    "click .sendReminder" : function(evt,tmpl){
+        var email = tmpl.find('.emailReminder').value;
+        var activity = tmpl.find('.smsReminderActivity').value;
+//        Meteor.call('sendSMS',Meteor.userId(),number,activity);
+
+        }
+    };
+
+
+
+
+
 Template.users_events.getEvents = function(){
     return user_events.find();
 }
@@ -158,5 +187,11 @@ Template.new_event.getLocations = function(){
     return (q.length > 0 ? q : false);
 };
 
+Template.send_sms_reminder.getEvents = function(){
+    console.log('find');
+    
+    var q= user_events.find().fetch();
+    return (q.length > 0 ? q : false);
+}
 
 

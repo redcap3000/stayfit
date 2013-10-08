@@ -89,9 +89,19 @@
                 {{else}}
                 <div class="dialog">
                     <div class="block">
-                        <p class="block-heading">Welcome</p>
+                        <p class="block-heading">Find fit fun fast</p>
                         <div class="block-body">
-                            <strong>Find fit fun fast.</strong>
+                            <strong>Web app to promote, encourage and facilitate physical activity with others.
+                            </strong>
+
+                            <p>Invite your and remind your friends to come out and play via SMS (twillio) and Email (sendgrid)</p>
+                            <p>Easily find locations and nearby activities that suit your specific activity. (gmaps)</p>
+                            <p>Accept and share expenses (venmo)</p>
+                            <p>Track and confirm scores of completed sporting activities</p>
+                            <p>Integrate 3rd party api's to provide additional fitness data for visualisation, tracking and machine learning ( fitbit, moves, strava)</p>
+                            
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -125,7 +135,11 @@
     {{#if isVerified}}
 
     {{>users_events}}
-
+    <div class="fluid-row">
+        {{>send_email_reminder}}
+        {{>send_sms_reminder}}
+    
+    </div>
    
     
     <div class="fluid-row">
@@ -260,24 +274,80 @@
         <div id="myTabContent" class="tab-content">
             <form>
                 <legend>Create a new Activity</legend>
-                <label>TItle</label>
+                <label>Title</label>
                 <input type="text" class="input-xlarge activityTitle">
                 <a href="#" class="btn btn-primary pull-right createActivity">Create</a>
             </form>
         </div>
 </template>
-
 <template name="new_location">
+</template>
+<template name="send_sms_reminder">
         <div id="myTabContent" class="tab-content">
             <form>
-                <legend>Create a new location</legend>
-                <label>Title</label>
-                <input type="text" class="input-xlarge locationTitle">
+                <legend>Send SMS</legend>
+                <label>Phone Number</label>
                 
+                
+                  <label>Event</label>
+                    <select name="eventLocation" id="eventActivity" class="input-xlarge smsReminderActivity">
+                    {{#if getEvents}}
+                    {{#each getEvents}}
+                    <option value="{{_id}}">{{title}}</option>
+                    {{/each}}
+                    {{else}}
+                    <option value="">You do not have events to schedule.</option>
+                    {{/if}}
+
+                </select>
+                
+                <input type="text" class="input-xlarge smsPhoneNumber">
+                
+                
+                
+                <a href="#" class="btn btn-primary pull-right sendSMSReminder">Send</a>
+            </form>
+        </div>
+</template>
+
+
+
+<template name="send_reminder">
+        <div id="myTabContent" class="tab-content">
+            <form>
+                <legend>Send Email</legend>
                 <label>Address</label>
-                <input type="text" class="input-xlarge locationAddress">
                 
-                <a href="#" class="btn btn-primary pull-right createLocation">Create</a>
+                
+                  <label>Event</label>
+                    <select name="eventLocation" id="eventActivity" class="input-xlarge eventActivity">
+                    {{#if getEvents}}
+                    {{#each getEvents}}
+                    <option value="{{title}}">{{title}}</option>
+                    {{/each}}
+                    {{else}}
+                    <option value="">You do not have events to schedule.</option>
+                    {{/if}}
+
+                </select>
+                
+                <input type="text" class="input-xlarge smsPhoneTitle">
+                
+                
+                
+                <a href="#" class="btn btn-primary pull-right sendSMSReminder">Create</a>
+            </form>
+        </div>
+</template>
+
+<template name="send_email_reminder">
+        <div id="myTabContent" class="tab-content">
+            <form>
+                <legend>Send EMail Reminder</legend>
+                <label>Address</label>
+                <input type="text" class="input-xlarge emailReminder">
+                
+                <a href="#" class="btn btn-primary pull-right sendEmailReminder">Create</a>
             </form>
         </div>
 

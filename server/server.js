@@ -256,17 +256,31 @@ Meteor.methods({
     
     
     sendSMS : function (dest, userid) {
+    
+            var settings = Meteor.settings;
+            
+            if(settings.twilio != "undefined"){
+                settings = settings.twilio;
+               
+                if(settings.account_sid != "undefined"){
+                    var sid = settings.account_sid;
+                    if(settings.auth_token != "undefined"){
+                        var auth_token = settings.auth_token
+                    }
+               }
+            }
+    
             var q =user_settings.findOne({owner:userid},{vCode:1});
             console.log(q.vCode);
             
             if(q && typeof q.vCode != 'undefined')
             
-          console.log(Meteor.http.post('https://api.twilio.com/2010-04-01/Accounts/ACbe383739477ce50535347399480c8403/Messages',
+          console.log(Meteor.http.post('https://api.twilio.com/2010-04-01/Accounts/'+sid+'/Messages',
           {
             params:{From:'+14696434684', To: dest, Body: 'Your stayfit code is ' + q.vCode},
             headers: {
             'content-type':'application/x-www-form-urlencoded',
-                'authorization' : 'Basic ' +  Base64.encode('ACbe383739477ce50535347399480c8403:6ccdf3fb40753f5dff511b920b541468'),
+                'authorization' : 'Basic ' +  Base64.encode(sid + ':' + auth_token),
             }
           }, function () {
               console.log(arguments)
@@ -280,20 +294,35 @@ Meteor.methods({
         // verify userId exists and  check status : 0
             
         var confirmation = user_settings.findOne({owner:userId});
-        console.log('send email');
-        if(confirmation && typeof confirmation.vCode != 'undefined'){
-            var message = 'Your confirmation code for stayfit.meteor.com is ' + confirmation.vCode;
         
-            var to_name = 'User';
-            var subject = 'Confirmation Code';
-            var sendgrid_user = 'pooran';
-            var sendgrid_key = '0nd3ckcup';
-            var base_url = 'https://sendgrid.com/api/mail.send.json?api_user='+sendgrid_user+'&api_key='+sendgrid_key+'&to='+address+'&toname='+to_name+'&subject=Example_Subject&text='+message+'&from=donotreply@stayfit.meteor.com';
-                
-            console.log(Meteor.http.get(base_url));
+        var settings = Meteor.settings;
+        
+        
+        
+        if(typeof settings != "undefined" && settings){
+            if(settings.sendGrid != "undefined"){
+                settings = settings.sendGrid;
+            }
+        }
+        
+        if(typeof settings.user != "undefined" && typeof settings.key != "undefined"){
+            sendgrid_user = settings.user;
+            sendgrid_key = settings.key;
+        
+        
+            if(confirmation && typeof confirmation.vCode != 'undefined'){
+                var message = 'Your confirmation code for stayfit.meteor.com is ' + confirmation.vCode;
             
-        }else{
-            console.log('confirmation email already sent');
+                var to_name = 'User';
+                var subject = 'Confirmation Code';
+                
+                var base_url = 'https://sendgrid.com/api/mail.send.json?api_user='+sendgrid_user+'&api_key='+sendgrid_key+'&to='+address+'&toname='+to_name+'&subject=Example_Subject&text='+message+'&from=donotreply@stayfit.meteor.com';
+                    
+                console.log(Meteor.http.get(base_url));
+                
+            }else{
+                console.log('confirmation email already sent');
+            }
         }
     },
     createEvent : function(userId,obj){
@@ -314,6 +343,43 @@ Meteor.methods({
        var cpy = obj;
         cpy.owner = userId;
         user_activities.insert(cpy);
+    },
+    
+    movesAuth : function(){
+        var settings = Meteor.settings;
+        console.log('auth');
+        console.log(settings);
+        if(typeof settings != 'undefined'){
+            
+            if(typeof settings.moves != 'undefined'){
+                settings = settings.moves;
+                if(typeof settings.client_id != "undefined"){
+                    if(typeof settings.client_secret != "undefined"){
+                        var base_url = "https://api.moves-app.com/oauth/v1/authorize?response_type=code&client_id=";
+                        console.log(base_url + settings.client_id + "&scope=activity" );
+                    }
+               }
+            }
+        }
+    },
+    
+    fitbitAuth : function(){
+    
+        // old oauth greeattt
+        
+         console.log(Meteor.http.post('https://api.twilio.com/2010-04-01/Accounts/ACbe383739477ce50535347399480c8403/Messages',
+          {
+            params:{oauth_signature_method:'HMAC-SHA1', oauth_timestamp: Date.parse(new Date()).getTime()/1000, oauth_nonce: Random.hexString(6) },
+            headers: {
+            'content-type':'application/x-www-form-urlencoded',
+                'authorization' : 'OAuth oauth_consumer_key="stayfit"',
+            }
+          }, function () {
+              console.log(arguments)
+            }
+          ));
+        
     }
+    
     
 });
