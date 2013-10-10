@@ -48,6 +48,17 @@ user_activities.allow(default_permissions);
 
 user_locations.allow(default_permissions);
 
+user_moves_places = new Meteor.Collection("user_moves_places");
+
+user_moves_places.allow(default_permissions);
+
+user_moves_activities = new Meteor.Collection("user_moves_activities");
+
+user_moves_activities.allow(default_permissions);
+
+
+
+
 /*
 insta_grams = new Meteor.Collection("insta_grams"),
 insta_locations = new Meteor.Collection("insta_locations"),
