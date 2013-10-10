@@ -5,6 +5,14 @@
 *  http://www.webtoolkit.info/
 *
 **/
+
+var serialize = function(obj) {
+  var str = [];
+  for(var p in obj)
+     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+  return str.join("&");
+};
+
 var Base64 = {
 
 // private property
@@ -361,6 +369,69 @@ Meteor.methods({
         }
     },
     
+    movesRequestToken : function(code){
+    
+        var settings = Meteor.settings;
+         var settings = Meteor.settings;
+        if(typeof settings != 'undefined'){
+            
+            if(typeof settings.moves != 'undefined'){
+                settings = settings.moves;
+                if(typeof settings.client_id != "undefined"){
+                    if(typeof settings.client_secret != "undefined"){
+                        var post_request = {params : {
+                            grant_type : "authorization_code",
+                            code : code,
+                            client_id : settings.client_id,
+                            client_secret : settings.client_secret,
+                            redirect_uri : settings.redirect_uri
+                        }};
+               
+                        console.log(post_request);
+                        Meteor.http.post( "https://api.moves-app.com/oauth/v1/access_token" ,post_request,function(error,result){
+                            if( typeof result != "undefined"){
+                                console.log(result);
+                                if(result.statusCode == 200){
+                                    console.log('token obtained from moves');
+                                
+                                if(typeof result.data != "undefined")
+                                    if(typeof result.data.access_token != "undefined")
+                                        // give user their moves token ...
+                                        user_settings.update({movesCode : code},
+                                        {"$set": {movesToken : result.data.access_token} });
+                                }else{
+                                    console.log('Moves token request returned error');
+                                    console.log(result);
+                                }
+                            }else{
+                                console.log('something bad happened when movesRequestToken ran');
+                                console.log(error);
+                            }
+                        });
+                   }
+                }
+            }
+        }
+    },
+    
+    movesApiController : function (userId,action,parameters){
+        // get api key
+        var q = user_settings.findOne({owner:userId});
+        if(q){
+            if (typeof q.movesToken != "undefined"){
+                var token = q.movesToken;
+                if(typeof parameters != "undefined"){
+               
+               }
+                // check if access token expired... PITA
+                 console.log( "https://api.moves-app.com/api/v1/user/" + action +  (typeof parameters != "undefined" ? "?" + serialize(parameters) + "&" : "?" ) +  "access_token=" + token);
+               
+                // perhaps do some validation on types of 'actions' to accept clientside
+                
+               
+            }
+        }
+    },
     fitbitAuth : function(){
     
         // old oauth greeattt

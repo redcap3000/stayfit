@@ -28,28 +28,45 @@ Meteor.startup(function(){
                 console.log('user found');
                 console.log(the_user_settings);
                 
-                if(typeof the_user_settings.movesToken == "undefined"){
-                    if(!Session.get('movesToken')){
+                if(typeof the_user_settings.movesCode == "undefined"){
+                    if(!Session.get('movesCode')){
                         // maybe do a simplier check..
                         var access_token = window.location.href.split("&");
                         console.log(access_token);
                         if(access_token.length > 1 ){
                             access_token = access_token[0].split("?code=")[1];
-                            Session.set('movesToken', access_token);
+                            Session.set('movesCode', access_token);
                             if(access_token[1] != "state="){
                             // store token into user_settings ?
                                 Session.set('movesState',access_token[1].split("state=")[1]);
                            }
                         }
                     }else{
+                    
+                        
                         // store variable to moves token , redirect uri to '/' to get rid of it in menubar
                        user_settings.update(the_user_settings._id,
                             {"$set" :{
-                                 movesToken : Session.get('movesToken')}
+                                 movesCode : Session.get('movesCode')}
                             }
                         );
                     }
-                }else{
+                }else if(!Session.get('movesRequestToken') && typeof the_user_settings.movesCode != "undefined"){
+                    // authorize it next ...
+                    // only call this once
+                    // make backend check /store actual token
+                    Meteor.call("movesRequestToken",the_user_settings.movesCode,function(error,result){
+                        if(typeof error != "undefined"){
+                            console.log('Problem with moves request token');
+                            console.log(error);
+                        }else{
+                            console.log('token obtained');
+                            console.log(result);
+                             //window.location.replace(result);
+                        }
+                    
+                    });
+                    Session.set('movesRequestToken',1);
                     console.log('moves token active');
                 }
             }else if(user_settings_sub.ready()){
@@ -81,8 +98,9 @@ Template.content.noMoves = function(){
 Template.content.events = {
     "click .getMovesKey" : function(){
         // redirect to result from serverside call
-        Meteor.call("movesAuth",function(error,result){if (typeof error != 'undefined') console.log(error); else window.location.replace(result);
-});
+        Meteor.call("movesAuth",
+            function(error,result){if (typeof error != 'undefined') console.log(error); else window.location.replace(result);
+        });
     }
 
 }
