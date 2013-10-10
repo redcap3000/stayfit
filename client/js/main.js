@@ -1,62 +1,74 @@
-Template.public_view.rendered = function(){
-        if(typeof map == 'undefined'){
-            //console.log('creating map')
-            //createMap();
-            
-        }else{
-            //setMapCenter();
-        }
-}
-
 
 Meteor.startup(function(){
     if(Meteor.userId()){
-    
         var user_events_sub = Meteor.subscribe("userEvents",Meteor.userId());
-        
         var user_activities_sub = Meteor.subscribe("userActivities",Meteor.userId());
         var user_locations_sub = Meteor.subscribe("userLocations",Meteor.userId());
         
+        /*
+         *  Handles : first verification code screen. Handles third-party redirect token api's when provided
+         *  and stores to user_settings
+         */
+        Deps.autorun(function(){
         
-        if(Session.get("vCode")){
-            console.log('vCode found!');
-            var user_settings_sub = Meteor.subscribe("userSettings", Meteor.userId(),Session.get("vCode"));
-            // doesnt report invalid validation codes yet... hmmmm
-        }else{
-            var user_settings_sub = Meteor.subscribe("userSettings",Meteor.userId());
+        // check for code ?
             
-            
-            // do we have a vCode?
-        }
-    
-        var the_user_settings = user_settings.findOne();
-        // check if user_settings is empty
-        if(the_user_settings){
-            console.log('user found');
-            
-           
-            
-            
-        }else{
-            Session.set("doRefferal",true);
-            console.log('user not found');
-            // create a new user settings ...
-            Meteor.call('newUserSettings',Meteor.userId(),function(error,result){
-                if(typeof error == 'undefined'){
-                    console.log('made user');
-                    console.log(result);
-                    // this is the vcode next do sub from here >?
-                    
+            if(Session.get("vCode")){
+                console.log('vCode found!');
+                var user_settings_sub = Meteor.subscribe("userSettings", Meteor.userId(),Session.get("vCode"));
+                // doesnt report invalid validation codes yet... hmmmm
+            }else{
+                var user_settings_sub = Meteor.subscribe("userSettings",Meteor.userId());
+                // do we have a vCode?
+            }
+        
+            var the_user_settings = user_settings.findOne();
+            // check if user_settings is empty
+            if(the_user_settings){
+                console.log('user found');
+                console.log(the_user_settings);
+                
+                if(typeof the_user_settings.movesToken == "undefined"){
+                    if(!Session.get('movesToken')){
+                        // maybe do a simplier check..
+                        var access_token = window.location.href.split("&");
+                        console.log(access_token);
+                        if(access_token.length > 1 ){
+                            access_token = access_token[0].split("?code=")[1];
+                            Session.set('movesToken', access_token);
+                            if(access_token[1] != "state="){
+                            // store token into user_settings ?
+                                Session.set('movesState',access_token[1].split("state=")[1]);
+                           }
+                        }
+                    }else{
+                        // store variable to moves token , redirect uri to '/' to get rid of it in menubar
+                       user_settings.update(the_user_settings._id,
+                            {"$set" :{
+                                 movesToken : Session.get('movesToken')}
+                            }
+                        );
                     }
-                // next do call to check if code has been entered yet based on status
-            });
-            
-        }
-        
-        
-    }
+                }else{
+                    console.log('moves token active');
+                }
+            }else if(user_settings_sub.ready()){
+                console.log('user not found');
+                // create a new user settings ...
+                Meteor.call('newUserSettings',Meteor.userId(),function(error,result){
+                    if(typeof error == 'undefined'){
+                        console.log('made user');
+                        console.log(result);
+                        // this is the vcode next do sub from here >?
+                        }
+                    // next do call to check if code has been entered yet based on status
+                });
+            }
+        });
+}
 
-});
+}
+);
 
 Template.public_view.isVerified = function(){
     var q  = user_settings.find({status:1}).fetch();
