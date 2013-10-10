@@ -347,8 +347,6 @@ Meteor.methods({
     
     movesAuth : function(){
         var settings = Meteor.settings;
-        console.log('auth');
-        console.log(settings);
         if(typeof settings != 'undefined'){
             
             if(typeof settings.moves != 'undefined'){
@@ -356,7 +354,7 @@ Meteor.methods({
                 if(typeof settings.client_id != "undefined"){
                     if(typeof settings.client_secret != "undefined"){
                         var base_url = "https://api.moves-app.com/oauth/v1/authorize?response_type=code&client_id=";
-                        console.log(base_url + settings.client_id + "&scope=activity" );
+                        return base_url + settings.client_id + "&scope=activity" ;
                     }
                }
             }
