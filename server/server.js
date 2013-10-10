@@ -362,7 +362,7 @@ Meteor.methods({
                 if(typeof settings.client_id != "undefined"){
                     if(typeof settings.client_secret != "undefined"){
                         var base_url = "https://api.moves-app.com/oauth/v1/authorize?response_type=code&client_id=";
-                        return base_url + settings.client_id + "&scope=activity" ;
+                        return base_url + settings.client_id + "&scope=activity%20location" ;
                     }
                }
             }
@@ -414,21 +414,67 @@ Meteor.methods({
         }
     },
     
-    movesApiController : function (userId,action,parameters){
+    movesApi : function (userId,action,parameters){
         // get api key
         var q = user_settings.findOne({owner:userId});
-        if(q){
+        if(q && typeof userId != "undefined" && typeof action != "undefined"){
+            console.log(q);
             if (typeof q.movesToken != "undefined"){
                 var token = q.movesToken;
-                if(typeof parameters != "undefined"){
-               
-               }
+               console.log(token);
+               console.log("https://api.moves-app.com/api/v1/user/" + action +  (typeof parameters != "undefined" ? "?" + serialize(parameters) + "&" : "?" ) +  "access_token=" + token);
                 // check if access token expired... PITA
-                 console.log( "https://api.moves-app.com/api/v1/user/" + action +  (typeof parameters != "undefined" ? "?" + serialize(parameters) + "&" : "?" ) +  "access_token=" + token);
+                 Meteor.http.get(  "https://api.moves-app.com/api/v1/user/" + action +  (typeof parameters != "undefined" ? "?" + serialize(parameters) + "&" : "?" ) +  "access_token=" + token , function(error,result){
+                    if(action == 'places/daily'){
+                        result.data.filter(function(arr){
+                            var date = arr.date;
+                            //var new_object = arr;
+                            //arr.owner = userId;
+                            var segments = [];
+                            // clean up segments array field to make less verbose. Should be ok.
+                            arr.segments.filter(function(arr2){
+                                var new_segment = {};
+                                
+                                new_segment.id = arr2.place.id;
+                                new_segment.name = arr2.place.name;
+                                new_segment.type = arr2.place.type;
+                                
+                                new_segment.lat = arr2.place.location.lat;
+                                new_segment.lon = arr2.place.location.lon;
+
+                                
+                                new_segment.startTime = arr2.startTime;
+                                new_segment.endTime = arr2.endTime;
+                                segments.push(new_segment);
+                            });
+                            
+                            var new_record = {};
+                            new_record.date = arr.date;
+                            if(segments.length > 0)
+                                new_record.segments = segments;
+                              // check to see if date does not exist support upsert !!!?
+                            user_moves_places.insert( new_record );
+                        });
+                        // store to places
+                        
+                  //      user_moves_places.insert(
+                    }else if(action == 'activities/daily'){
+                    // no change for this data structure since activities are more embedded and don't feel like
+                    // doing time difference calculations for now ...
+                        result.data.filter(function(arr){
+                            //var new_object = arr;
+                            //arr.owner = userId;
+                            var new_record = arr;
+                            new_record.owner = userId;
+                            console.log(new_record);
+                              // check to see if date does not exist support upsert !!!?
+                            console.log(user_moves_activities.insert( new_record ));
+                        });
+                    }
+                 
+                 }) ;
                
                 // perhaps do some validation on types of 'actions' to accept clientside
-                
-               
             }
         }
     },
