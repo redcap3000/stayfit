@@ -70,6 +70,23 @@ Meteor.startup(function(){
 }
 );
 
+Template.content.noMoves = function(){
+    if(typeof user_settings != "undefined"){
+        var settings = user_settings.findOne();
+        if(typeof settings != 'undefined')
+            return (typeof settings.movesToken == 'undefined'? true : false);
+    }
+};
+
+Template.content.events = {
+    "click .getMovesKey" : function(){
+        // redirect to result from serverside call
+        Meteor.call("movesAuth",function(error,result){if (typeof error != 'undefined') console.log(error); else window.location.replace(result);
+});
+    }
+
+}
+
 Template.public_view.isVerified = function(){
     var q  = user_settings.find({status:1}).fetch();
     return q;
@@ -77,13 +94,10 @@ Template.public_view.isVerified = function(){
 
 Template.public_view.events = {
     "click .accountSubmit" : function(evt,tmpl){
-        console.log(this);
-        console.log(tmpl.find('.accountVerification').value);
         
         var inputCode = tmpl.find('.accountVerification').value;
         
         if(inputCode){
-            console.log('found');
             user_settings_sub = Meteor.subscribe("userSettings", Meteor.userId(),inputCode);
             // set session and let deps and subscribe handle the rest
         }
