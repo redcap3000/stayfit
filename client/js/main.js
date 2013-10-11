@@ -249,4 +249,7 @@ Template.send_sms_reminder.getEvents = function(){
 Template.moves.getPlaces = function(){
     return user_moves_places.find();
 }
+Template.moves.getActivities = function(){
+    return user_moves_activities.find();
+}
 

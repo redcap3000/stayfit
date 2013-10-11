@@ -1,21 +1,71 @@
 <template name="moves">
-
-    {{#each getPlaces}}
-        {{>moves_segments}}
-    {{/each}}
-
-</template>
-
-<template name="moves_segments">
-    <div class="row date">
-    {{#each this.segments}}
-        {{>moves_place}}
-    {{/each}}
+    <div class="row-fluid">
+        {{#each getPlaces}}
+            {{>moves_segments}}
+        {{/each}}
+    </div>
+    <div class="row-fluid">
+        {{#each getActivities}}
+            {{>moves_activities}}
+        {{/each}}
     </div>
 </template>
 
-<template name="moves_place">
-    <div class="place span4" id="{{id}}">
-        <span>{{name}} : {{type}}</span>
+<template name="moves_segments">
+    <h2>{{date}}</h2>
+    <div class="well">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>type</th>
+                    <th>name</th>
+                    <th>lat,lon</th>
+                    <th>startTime</th>
+                    <th>endTime</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.segments}}
+                    <tr>
+                        <td>{{type}}</td>
+                        <td>{{name}}</td>
+                        <td>{{lat}},{{lon}}</td>
+                        <td>{{startTime}}</td>
+                        <td>{{endTime}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<template name="moves_activities">
+    <h2>{{date}}</h2>
+    <div class="well">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>activity</th>
+                    <th>duration</th>
+                    <th>distance</th>
+                    <th>calories</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.segments}}
+                    {{#each this.activities}}
+                    <tr>
+                        <td>{{activity}}</td>
+                        <td>{{duration}}</td>
+                        <td>{{distance}}</td>
+                        <td>{{calories}}</td>
+                    </tr>
+                    {{/each}}
+                
+                {{/each}}
+            </tbody>
+            
+        </table>
     </div>
 </template>
