@@ -301,7 +301,17 @@
         </div>
 </template>
 <template name="new_location">
+       <div id="myTabContent" class="tab-content">
+            <form>
+                <legend>Create a new location</legend>
+                <label>Address</label>
+                <input type="text" class="input-xlarge locationAddress">
+                <label>Title</label>
+                <input type="text" class="input-xlarge locationTitle">
 
+                <a href="#" class="btn btn-primary pull-right createLocation">Create</a>
+            </form>
+        </div>
 
 </template>
 <template name="send_sms_reminder">

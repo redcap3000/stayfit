@@ -83,14 +83,16 @@ Meteor.startup(function(){
             }else if(user_settings_sub.ready()){
                 console.log('user not found');
                 // create a new user settings ...
-                Meteor.call('newUserSettings',Meteor.userId(),function(error,result){
-                    if(typeof error == 'undefined'){
-                        console.log('made user');
-                        console.log(result);
-                        // this is the vcode next do sub from here >?
-                        }
-                    // next do call to check if code has been entered yet based on status
-                });
+                if(Meteor.userId()){
+                    Meteor.call('newUserSettings',Meteor.userId(),function(error,result){
+                        if(typeof error == 'undefined'){
+                            console.log('made user');
+                            console.log(result);
+                            // this is the vcode next do sub from here >?
+                            }
+                        // next do call to check if code has been entered yet based on status
+                    });
+                }
             }
         });
 }
@@ -169,6 +171,7 @@ Template.new_event.events = {
     "click .createEvent" : function(evt,tmpl){
         alert('Make this happen');
         console.log('here');
+        Session.set("page","home");
         var title = tmpl.find('.eventTitle').value;
         var location = tmpl.find('.eventLocation').value;
         var activity = tmpl.find('.eventActivity').value;
