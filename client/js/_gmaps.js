@@ -28,7 +28,7 @@ createMap = function(latLng) {
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
     // disable this ASAP
-    setMapCenter();
+//    setMapCenter();
 },
 placeNavMarker = function(latLng,title) {
     if(typeof title == 'undefined'){
