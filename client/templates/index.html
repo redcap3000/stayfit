@@ -67,19 +67,13 @@
     <div class="content">
         {{#if currentUser}}
         <div class="header">
+            {{#if noMoves}}
             <div class="stats">
-                <p class="stat"><span class="number">4</span>pending invites</p>
-                <p class="stat"><span class="number">5</span>places</p>
-                <p class="stat"><span class="number">3</span>games so far</p>
-                {{#if noMoves}}<p class="stat"><a href="#" class="getMovesKey">Connect moves api</a></p>{{/if}}
+                <p class="stat"><a href="#" class="getMovesKey">Connect moves api</a></p>
             </div>
+            {{/if}}
 
-            <h1 class="page-title">Dashboard</h1>
         </div>
-        <ul class="breadcrumb">
-            <li><a href="/">Home</a> <span class="divider">/</span></li>
-            <li class="active">Dashboard</li>
-        </ul>
         {{/if}}
       
         <div class="container-fluid">
@@ -121,12 +115,6 @@
     </div>
     
       <script src="lib/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript">
-        $("[rel=tooltip]").tooltip();
-        $(function () {
-            $('.demo-cancel-click').click(function () { return false; });
-        });
-    </script>
     
 </template>
 
@@ -135,20 +123,37 @@
 
     {{#if isVerified}}
 
-    {{>users_events}}
-    <div class="fluid-row">
-        {{>send_email_reminder}}
-        {{>send_sms_reminder}}
-    
-    </div>
+        {{#if newActivity}}
+
+            <div class="fluid-row">
+
+            {{>new_event}}
+
+            </div>
+        {{/if}}
+        
+        {{#if sendReminder}}
+
+        <div class="fluid-row">
+            {{>send_email_reminder}}
+            {{>send_sms_reminder}}
+        
+        </div>
+        
+        {{/if}}
+        
+        {{#if movesApi}}
+            {{>moves}}
+        {{/if}}
+
+        {{#if atHome}}
+            {{>users_events}}
+        {{/if}}
    
     
-    <div class="fluid-row">
 
-     {{>new_event}}
- 
-    </div>
     
+   
      <!-- show 'groupwear' type stuff? -->
     {{else}}
         <div class="alert alert-info">
@@ -189,16 +194,14 @@
 <template name="sidebar">
     <div class="sidebar-nav">
         <div class="block">{{loginButtons}}</div>
-        <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-dashboard"></i>Dashboard</a>
+        {{#if currentUser}}
         <ul id="dashboard-menu" class="nav nav-list collapse in">
-            <li><a href="/">Home</a></li>
-            <li><a href="users.html">Sports</a></li>
-            <li><a href="user.html">Invite</a></li>
-            <li><a href="maps.html">Media</a></li>
-            <li><a href="calendar.html">Calendar</a></li><li><a href="expenses.html">Expenses</a></li>
+            <li><a class="home" href="#"><i class="icon-home"></i>Home</a></li>
+            <li><a class="newActivity" href="#"><i class="icon-play"></i>New Event</a></li>
+            <li><a class="sendReminder" href="#"><i class="icon-bell"></i>Send Reminder</a></li>
+            {{#if hasMoves}}<li><a class="movesApi" href="#"><i class="icon-cog"></i>Moves API</a></li>{{/if}}
         </ul>
-        <a href="faq.html" class="nav-header"><i class="icon-cog"></i>Faq</a>
-        
+        {{/if}}
             
     </div>
 </template>
@@ -262,11 +265,20 @@
             </form>
         </div>
     </div>
+
+
     
+    <div class="span5">
+    {{>new_activity}}
+    
+    
+    {{>new_location}}
+    
+    
+    </div>
     <div class="clearfix"></div>
     
     
-    {{>moves}}
 </template>
 <template name="new_activity">
         <div id="myTabContent" class="tab-content">
@@ -279,6 +291,8 @@
         </div>
 </template>
 <template name="new_location">
+
+
 </template>
 <template name="send_sms_reminder">
         <div id="myTabContent" class="tab-content">
