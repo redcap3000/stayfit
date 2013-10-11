@@ -220,9 +220,49 @@ Template.send_reminder.events = {
         }
     };
 
+Template.sidebar.events = {
+
+    "click .newActivity" : function(){
+        Session.set("page","newActivity");
+    },
+    "click .sendReminder" : function(){
+        Session.set("page","sendReminder");
+    },
+    "click .movesApi" : function(){
+        Session.set("page","movesApi");
+    },
+    "click .home" :function(){
+        Session.set("page",undefined);
+    }
+};
 
 
+Template.public_view.newActivity = function(){
+    return Session.equals("page","newActivity");
+};
 
+Template.public_view.sendReminder = function(){
+    return Session.equals("page","sendReminder");
+};
+
+Template.public_view.movesApi = function(){
+    return Session.equals("page","movesApi");
+};
+
+Template.sidebar.hasMoves = function(){
+
+    if(typeof user_settings != "undefined"){
+        var settings = user_settings.findOne();
+        if(typeof settings != 'undefined')
+            return (typeof settings.movesToken == 'undefined'? false : true);
+    }
+
+
+};
+
+Template.public_view.atHome = function(){
+    return Session.equals("page",undefined);
+}
 
 Template.users_events.getEvents = function(){
     return user_events.find();
