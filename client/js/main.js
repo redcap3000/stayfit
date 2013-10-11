@@ -305,7 +305,7 @@ movesTimestamp = function(timestamp,format){
 
 movesDate = function(date,format){
     if(typeof format == "undefined"){
-        format = "ddd do MMM";
+        format = "ddd DD MMM";
     }
     return moment(date,"YYYYMMDD").format(format);
 
@@ -350,6 +350,7 @@ Template.moves.getActivities = function(){
         var new_set = [];
         q.filter(function(arr){
             var new_object = arr;
+            new_object.date = movesDate(arr.date);
             var new_segments = [];
             arr.segments.filter(function(arr2){
                 var new_segment = {};
@@ -363,13 +364,11 @@ Template.moves.getActivities = function(){
                     
                     new_activity.startTime = movesTimestamp(arr3.startTime);
                     if(arr3.duration < 60)
-                        new_activity.duration = '00:' + arr3.duration;
+                        new_activity.duration = '00:' + (arr3.duration < 10 ? '0' : '') + arr3.duration;
                     else{
                         var seconds = arr3.duration % 60;
                         var mintutes = parseInt(arr3.duration/60);
-                        new_activity.duration = mintutes + ':' + (seconds < 10 ? '0':'') + seconds ;
-                        
-                        
+                        new_activity.duration = (mintutes < 10 ? '0' :'')+ mintutes + ':' + (seconds < 10 ? '0':'') + seconds ;
                     }
                     new_activity.distance *= 0.000621371192;
                     new_activity.distance = Math.round(new_activity.distance*100)/100
