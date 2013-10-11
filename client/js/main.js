@@ -69,6 +69,14 @@ Meteor.startup(function(){
                     Session.set('movesRequestToken',1);
                     console.log('moves token active');
                 }
+                
+                
+                if(typeof the_user_settings.movesCode != "undefined"){
+                // get subscriptions for moves data
+                     var user_moves_locations_sub = Meteor.subscribe("userMovesPlaces",Meteor.userId());
+                     var user_moves_activities_sub = Meteor.subscribe("userMovesActivities",Meteor.userId());
+                
+                }
             }else if(user_settings_sub.ready()){
                 console.log('user not found');
                 // create a new user settings ...
@@ -238,4 +246,7 @@ Template.send_sms_reminder.getEvents = function(){
     return (q.length > 0 ? q : false);
 }
 
+Template.moves.getPlaces = function(){
+    return user_moves_places.find();
+}
 
