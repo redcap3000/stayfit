@@ -80,18 +80,6 @@ Meteor.startup(function(){
                 
                 }
                 
-                
-                if(user_moves_locations_sub.ready() && user_moves_activities_sub.ready()){
-                    if(!user_moves_locations.findOne()){
-                        Meteor.call("movesApi",Meteor.userId(),"places/daily",{pastDays:7})
-                        
-                    }
-                    if(!user_moves_activities.findOne() ){
-                        Meteor.call("movesApi",Meteor.userId(),"activities/daily",{pastDays:7})
-
-                    }
-                }
-                
             }else if(user_settings_sub.ready()){
                 console.log('user not found');
                 // create a new user settings ...
@@ -343,6 +331,13 @@ movesDate = function(date,format){
     }
     return moment(date,"YYYYMMDD").format(format);
 
+}
+
+Template.moves.events = {
+    "click .getMovesData" : function(){
+        Meteor.call("movesApi",Meteor.userId(),"places/daily",{pastDays:7});
+        Meteor.call("movesApi",Meteor.userId(),"activities/daily",{pastDays:7});
+    }
 }
 
 Template.moves.getPlaces = function(){
