@@ -103,6 +103,10 @@ Template.content.noMoves = function(){
     }
 };
 
+Template.content.noMap = function(){
+    return !Session.equals("page","map");
+}
+
 Template.content.events = {
     "click .getMovesKey" : function(){
         // redirect to result from serverside call
@@ -233,6 +237,11 @@ Template.sidebar.events = {
     },
     "click .home" :function(){
         Session.set("page",undefined);
+    },
+    "click .showMap" : function(){
+        Session.set("page","map");
+        // band aid to show the map ?
+        
     }
 };
 
@@ -284,7 +293,17 @@ Template.send_sms_reminder.getEvents = function(){
     
     var q= user_events.find().fetch();
     return (q.length > 0 ? q : false);
-}
+};
+
+Template.map.showMap = function(){
+    return Session.equals("page","map");
+};
+
+Template.map.rendered = function(){
+// band aid to show the map right as it is created....  eventually grab
+// session var with lat/long to set this properly...
+    setMapCenter();
+};
 
 // properly uses moment to format the timestamp...
 movesTimestamp = function(timestamp,format){

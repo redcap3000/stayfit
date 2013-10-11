@@ -56,10 +56,11 @@ placeNavMarker = function(latLng,title) {
 },
 // takes either array with two integers (x,y) or a google maps LatLng object.
 setMapCenter = function(q){
-    if(typeof map == 'undefined' && Session.get('access_token')){
+    if(typeof map == 'undefined'){
         createMap();
-    }
+    }else{
     map.setCenter((typeof q == 'object' && q.length == 2? new google.maps.LatLng(q[0],q[1]) : (typeof q == 'object' ? q: new google.maps.LatLng(0,0))));
+    }
 }
  });
 /*

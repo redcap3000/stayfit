@@ -161,11 +161,15 @@ div.infoWindow p strong {
     
 }
 
+
 #map_canvas { 
+position: absolute;
+  top: 0;
+  left: 15%;
   height: 100%;
-  width: 75%;
-  overflow: hidden;
+  width: 85%;
   min-width: 30em;
+  z-index: 1000;
   float: right;
 }
 
