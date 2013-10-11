@@ -1,0 +1,21 @@
+<template name="moves">
+
+    {{#each getPlaces}}
+        {{>moves_segments}}
+    {{/each}}
+
+</template>
+
+<template name="moves_segments">
+    <div class="row date">
+    {{#each this.segments}}
+        {{>moves_place}}
+    {{/each}}
+    </div>
+</template>
+
+<template name="moves_place">
+    <div class="place span4" id="{{id}}">
+        <span>{{name}} : {{type}}</span>
+    </div>
+</template>
