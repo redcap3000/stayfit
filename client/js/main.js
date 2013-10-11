@@ -73,10 +73,25 @@ Meteor.startup(function(){
                 
                 if(typeof the_user_settings.movesCode != "undefined"){
                 // get subscriptions for moves data
+                     Meteor.call("movesApi",Meteor.userId,"activities/daily",{pastDays:7})
+                // if they are empty then lookup daily activities... this may run frequently with each update ...
                      var user_moves_locations_sub = Meteor.subscribe("userMovesPlaces",Meteor.userId());
                      var user_moves_activities_sub = Meteor.subscribe("userMovesActivities",Meteor.userId());
                 
                 }
+                
+                
+                if(user_moves_locations_sub.ready() && user_moves_activities_sub.ready()){
+                    if(!user_moves_locations.findOne()){
+                        Meteor.call("movesApi",Meteor.userId(),"places/daily",{pastDays:7})
+                        
+                    }
+                    if(!user_moves_activities.findOne() ){
+                        Meteor.call("movesApi",Meteor.userId(),"activities/daily",{pastDays:7})
+
+                    }
+                }
+                
             }else if(user_settings_sub.ready()){
                 console.log('user not found');
                 // create a new user settings ...
