@@ -186,7 +186,26 @@ Meteor.publish("userLocations",function(userId){
     if(typeof userId != "undefined" && userId != null){
         return user_locations.find({owner:userId});
     }
+    
+    
+    
 });
+
+
+
+Meteor.publish("userMovesPlaces",function(userId){
+    if(typeof userId != "undefined" && userId != null){
+        return user_moves_places.find({owner:userId});
+    }
+});
+
+
+Meteor.publish("userMovesActivities",function(userId){
+    if(typeof userId != "undefined" && userId != null){
+        return user_moves_activities.find({owner:userId});
+    }
+});
+
 
 /* PUBLISH EXAMPLES 
 
@@ -425,7 +444,7 @@ Meteor.methods({
                console.log("https://api.moves-app.com/api/v1/user/" + action +  (typeof parameters != "undefined" ? "?" + serialize(parameters) + "&" : "?" ) +  "access_token=" + token);
                 // check if access token expired... PITA
                  Meteor.http.get(  "https://api.moves-app.com/api/v1/user/" + action +  (typeof parameters != "undefined" ? "?" + serialize(parameters) + "&" : "?" ) +  "access_token=" + token , function(error,result){
-                    if(action == 'places/daily'){
+                    if(action == 'places/daily' && result.data != null){
                         result.data.filter(function(arr){
                             var date = arr.date;
                             //var new_object = arr;
@@ -453,6 +472,7 @@ Meteor.methods({
                             if(segments.length > 0)
                                 new_record.segments = segments;
                               // check to see if date does not exist support upsert !!!?
+                            new_record.owner = userId;
                             user_moves_places.insert( new_record );
                         });
                         // store to places
