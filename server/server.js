@@ -149,8 +149,6 @@ _utf8_decode : function (utftext) {
 
 }
 
-
-
 Meteor.publish("userSettings",function(userId,vCode){
     if(typeof userId != "undefined" && userId != null && typeof vCode != 'undefined'){
         var q = user_settings.find({owner:userId, vCode: vCode,status:0}).fetch();
@@ -165,8 +163,6 @@ Meteor.publish("userSettings",function(userId,vCode){
         return user_settings.find({owner:userId, status:1});
     }
 });
-
-
 
 Meteor.publish("userEvents",function(userId){
     //console.log('publishing');
@@ -186,12 +182,7 @@ Meteor.publish("userLocations",function(userId){
     if(typeof userId != "undefined" && userId != null){
         return user_locations.find({owner:userId});
     }
-    
-    
-    
 });
-
-
 
 Meteor.publish("userMovesPlaces",function(userId){
     if(typeof userId != "undefined" && userId != null){
@@ -205,34 +196,6 @@ Meteor.publish("userMovesActivities",function(userId){
         return user_moves_activities.find({owner:userId});
     }
 });
-
-
-/* PUBLISH EXAMPLES 
-
-Meteor.publish("allLocations",function(idFilter){
-// eventually use geojson to only get locations near by? automagically ... ?
-    if(typeof idFilter == 'undefined' || typeof idFilter != 'object' ||  !idFilter){
-    // no filter
-        return false;
-        }
-    else{
-        return insta_locations.find({id: {"$in" : idFilter}});
-        }
-});
-
-Meteor.publish("locationsPosts",function(theFilter){
-// the filter refers to an array with ID's of the grams to retreve ...
-// eventually use geojson to only get locations near by? automagically ... ?
-    //console.log(this.added("insta_locations_grams"));\// tooo much DATA
-    if(typeof theFilter != 'undefined' && theFilter != null)
-        if(theFilter.length > 0)
-            return insta_locations_grams.find({id:{"$in" : theFilter}},{});
-    else{
-        console.log('no locations to load... from filter');
-    }
-});
-
-*/
 
 Meteor.methods({
     genCode : function(the_owner){
@@ -280,43 +243,72 @@ Meteor.methods({
         return false;
         
     },
+/*
+ *  Serverside taxonomy insert events...
+ *  i think i'm putting them here for now
+ */
+    createEvent : function(userId,obj){
+        // probably validate obj ...
+        var cpy = obj;
+        cpy.owner = userId;
+        return user_events.insert(obj);
+        
+    },
+    createLocation : function(userId,obj){
+        var cpy = obj;
+        cpy.owner = userId;
+        return user_locations.insert(obj);
+        
+    },
     
-    
+    createActivity : function(userId,obj){
+       var cpy = obj;
+        cpy.owner = userId;
+        user_activities.insert(cpy);
+    },
+/* 
+ *  twilio API
+ *      sendSMS(phone number, userid)  - (for now) sends a confirmation code stored in user_settings via Meteor.userId() via sms
+ *      very basic implementation
+ */
     sendSMS : function (dest, userid) {
     
-            var settings = Meteor.settings;
-            
-            if(settings.twilio != "undefined"){
-                settings = settings.twilio;
-               
-                if(settings.account_sid != "undefined"){
-                    var sid = settings.account_sid;
-                    if(settings.auth_token != "undefined"){
-                        var auth_token = settings.auth_token
-                    }
-               }
-            }
-    
-            var q =user_settings.findOne({owner:userid},{vCode:1});
-            console.log(q.vCode);
-            
-            if(q && typeof q.vCode != 'undefined')
-            
-          console.log(Meteor.http.post('https://api.twilio.com/2010-04-01/Accounts/'+sid+'/Messages',
-          {
+        var settings = Meteor.settings;
+
+        if(settings.twilio != "undefined"){
+            settings = settings.twilio;
+           
+            if(settings.account_sid != "undefined"){
+                var sid = settings.account_sid;
+                if(settings.auth_token != "undefined"){
+                    var auth_token = settings.auth_token
+                }
+           }
+        }
+
+        var q =user_settings.findOne({owner:userid},{vCode:1});
+
+        if(q && typeof q.vCode != 'undefined')
+
+            console.log(Meteor.http.post('https://api.twilio.com/2010-04-01/Accounts/'+sid+'/Messages',
+            {
             params:{From:'+14696434684', To: dest, Body: 'Your stayfit code is ' + q.vCode},
             headers: {
             'content-type':'application/x-www-form-urlencoded',
-                'authorization' : 'Basic ' +  Base64.encode(sid + ':' + auth_token),
+            'authorization' : 'Basic ' +  Base64.encode(sid + ':' + auth_token)
             }
-          }, function () {
-              console.log(arguments)
             }
-          ));
-        
-
+            ));
     },
-    
+/*
+ *  END twilio API
+ */
+/*
+ *  Sendgrid API
+ *      sendEmail(userId,email)  - (for now) sends a confirmation code stored in user_settings via Meteor.userId()
+ *      very basic implementation
+ */
+     
     sendEmail : function(userId,address){
         // verify userId exists and  check status : 0
             
@@ -352,26 +344,24 @@ Meteor.methods({
             }
         }
     },
-    createEvent : function(userId,obj){
-        // probably validate obj ...
-        var cpy = obj;
-        cpy.owner = userId;
-        return user_events.insert(obj);
-        
-    },
-    createLocation : function(userId,obj){
-        var cpy = obj;
-        cpy.owner = userId;
-        return user_locations.insert(obj);
-        
-    },
+
+/*
+ *  END SENDGRID API
+ */
     
-    createActivity : function(userId,obj){
-       var cpy = obj;
-        cpy.owner = userId;
-        user_activities.insert(cpy);
-    },
-    
+/*
+ *
+ *  Moves API Stuff
+ *  movesAuth ()                        -  Begins oauth flow. Redirects window to appropriate URL from backend call
+ *
+ *  movesRequestToken (code)            - uses code from above, which is stored via client side
+ *                                        request in user_settings.movesCode
+ *
+ *  movesApi (userId,action,parameters) - Looks up users token via user id inside user_settings.movesToken, stored in method above server side.
+ *                                        Uses action to add to end of URI, supports activities/daily and places/daily, enforced server-side. 
+ *                                        Attaches access_token= parameter at end of statement. Stores activities/daily to user_moves_activities, 
+ *                                        stores places/daily to user_moves_places (with some minor modification to record structure)
+ */
     movesAuth : function(){
         var settings = Meteor.settings;
         if(typeof settings != 'undefined'){
@@ -481,6 +471,8 @@ Meteor.methods({
                     }else if(action == 'activities/daily'){
                     // no change for this data structure since activities are more embedded and don't feel like
                     // doing time difference calculations for now ...
+                    
+                        if(result.data != null)
                         result.data.filter(function(arr){
                             //var new_object = arr;
                             //arr.owner = userId;
@@ -490,6 +482,12 @@ Meteor.methods({
                               // check to see if date does not exist support upsert !!!?
                             console.log(user_moves_activities.insert( new_record ));
                         });
+                        else{
+                            console.log('expired access token');
+                            user_settings.update({owner: userId },{$set: { movesCode : undefined, movesToken:undefined } });
+                            return {error : 'expired access token'};
+                        }
+                            
                     }
                  
                  }) ;
@@ -498,6 +496,10 @@ Meteor.methods({
             }
         }
     },
+    /*
+     *  END OF MOVES API
+     *
+     */
     fitbitAuth : function(){
     
         // old oauth greeattt

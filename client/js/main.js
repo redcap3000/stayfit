@@ -51,7 +51,7 @@ Meteor.startup(function(){
                             }
                         );
                     }
-                }else if(!Session.get('movesRequestToken') && typeof the_user_settings.movesCode != "undefined"){
+                }else if(!Session.get('movesRequestToken') && typeof the_user_settings.movesCode != "undefined" && typeof the_user_settings.movesToken == "undefined"){
                     // authorize it next ...
                     // only call this once
                     // make backend check /store actual token
