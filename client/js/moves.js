@@ -39,14 +39,12 @@ Template.moves.events = {
     "click .setShowDays" : function(evt,tmpl){
         var q = tmpl.find(".movesShowDays");
         if(typeof q != "undefined"){
-            alert('here');
-            console.log(q.value);
             if(typeof q.value != "undefined")
                 Session.set("showDays",q.value);
             
             
         }else{
-            alert('not here');
+            console.log("problem with setShowDays");
         }
     
     }
