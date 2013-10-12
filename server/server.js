@@ -197,6 +197,12 @@ Meteor.publish("userMovesActivities",function(userId){
     }
 });
 
+Meteor.publish("userMovesStoryline",function(userId){
+    if(typeof userId != "undefined" && userId != null){
+        return user_moves_storyline.find({owner:userId});
+    }
+});
+
 Meteor.methods({
     genCode : function(the_owner){
         console.log('generating code for' + the_owner);
@@ -206,19 +212,18 @@ Meteor.methods({
         }
     ,
     newUserSettings : function(the_owner){
-        var new_object = {};
-        new_object.owner = the_owner;
-        new_object.vMethod = 'email';
-        new_object.status = 0;
-        console.log('inserting new owner settings... probably verify one does not already exist');
-        if(!user_settings.findOne({owner:the_owner})){
-            var random_value = Random.hexString(4);
-            new_object.vCode = random_value;
-            user_settings.insert(new_object);
-            // issue another call to determine to send as SMS or email
-            return random_value;
-        }else{
-            console.log('user exists');
+        if(typeof the_owner != "undefined" && the_owner){
+            var new_object = {};
+            new_object.owner = the_owner;
+            new_object.status = 1;
+            if(!user_settings.findOne({owner:the_owner})){
+                user_settings.insert(new_object);
+                // issue another call to determine to send as SMS or email
+                return true;
+            }else{
+                console.log('user exists');
+                return false;
+            }
         }
     },
     verifyCode : function(the_owner,vCode){
@@ -434,7 +439,7 @@ Meteor.methods({
                console.log("https://api.moves-app.com/api/v1/user/" + action +  (typeof parameters != "undefined" ? "?" + serialize(parameters) + "&" : "?" ) +  "access_token=" + token);
                 // check if access token expired... PITA
                  Meteor.http.get(  "https://api.moves-app.com/api/v1/user/" + action +  (typeof parameters != "undefined" ? "?" + serialize(parameters) + "&" : "?" ) +  "access_token=" + token , function(error,result){
-                    if(action == 'places/daily' && result.data != null){
+                    if(action == "places/daily" && result.data != null){
                         result.data.filter(function(arr){
                             var date = arr.date;
                             //var new_object = arr;
@@ -468,7 +473,7 @@ Meteor.methods({
                         // store to places
                         
                   //      user_moves_places.insert(
-                    }else if(action == 'activities/daily'){
+                    }else if(action == "activities/daily"){
                     // no change for this data structure since activities are more embedded and don't feel like
                     // doing time difference calculations for now ...
                     
@@ -483,11 +488,17 @@ Meteor.methods({
                             console.log(user_moves_activities.insert( new_record ));
                         });
                         else{
-                            console.log('expired access token');
                             user_settings.update({owner: userId },{$set: { movesCode : undefined, movesToken:undefined } });
-                            return {error : 'expired access token'};
+                            return {error : "expired access token"};
                         }
                             
+                    }else if(action == "storyline/daily" || typeof parameters.trackPoints != "undefined"){
+                        // only support one date to keep track of 'track points'
+                        console.log(result.data);
+                        var new_record = result.data[0];
+                        new_record.owner = Meteor.userId();
+                        // can we do upserts yet? please ?
+                        user_moves_storyline.insert(new_record);
                     }
                  
                  }) ;
@@ -500,6 +511,24 @@ Meteor.methods({
      *  END OF MOVES API
      *
      */
+     
+     movesApiStoryline : function(userid,days){
+        console.log('call');
+        if(typeof userid != "undefined"){
+            if(typeof days == "undefined"){
+                days = 7;
+            }
+            // todays day ...
+            for(var x = 0;x < days; x++){
+                var the_day =  moment().subtract('days',x).format("YYYYMMDD");
+                Meteor.call("movesApi",userid, "storyline/daily/" + the_day, {trackPoints:true});
+            }
+            
+        }
+        // automatically get a specific number of days
+        // to get track points systematically one day at a time ...
+     },
+     
     fitbitAuth : function(){
     
         // old oauth greeattt

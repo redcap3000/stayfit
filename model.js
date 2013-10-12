@@ -56,6 +56,9 @@ user_moves_activities = new Meteor.Collection("user_moves_activities");
 
 user_moves_activities.allow(default_permissions);
 
+user_moves_storyline = new Meteor.Collection("user_moves_storyline");
+
+user_moves_storyline.allow(default_permissions);
 
 
 
