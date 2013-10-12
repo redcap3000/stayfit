@@ -27,8 +27,21 @@ Template.moves.events = {
     "click .getMovesData" : function(){
         Meteor.call("movesApi",Meteor.userId(),"places/daily",{pastDays:7});
         Meteor.call("movesApi",Meteor.userId(),"activities/daily",{pastDays:7});
+    },
+    
+    "click .setDays" : function(evt,tmpl){
+        var q = tmpl.find(".movesPastDays");
+        
+        Meteor.call("movesApiStoryline",Meteor.userId(),q.value,function(error,result){if(typeof error == "undefined")Session.set("page","map") });
+        
+        
     }
 };
+
+Template.moves.totalDays = function(){
+
+    return user_moves_storyline.find().fetch().length;
+}
 
 Template.moves.getPlaces = function(){
     var q = user_moves_places.find().fetch();
@@ -144,8 +157,11 @@ plotStoryline = function(){
                             
                         });
                     
-                    }else if(typeof arr2.place != "undefined"){
-                    
+                    }
+                    if(typeof arr2.place != "undefined"){
+                        // add a nav marker to the place location and add name??
+                        placeNavMarker(arr2.place.location.lat,arr2.place.location.lon,arr2.place.name);
+                        console.log(arr2.place);
                     }
                     });
             }

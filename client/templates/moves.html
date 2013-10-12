@@ -1,16 +1,20 @@
 <template name="moves">
-    <a href="#" class="btn-primary getMovesData">Refresh this week</a>
+  <!--  <a href="#" class="btn-primary getMovesData">Refresh this week</a>
     <a href="#" class="btn-primary" onClick ='Meteor.call("movesApiStoryline",Meteor.userId(),function(error,result){if(typeof error == "undefined")Session.set("page","map") });'>Get storyline</a>
+    -->
+    
     <div class="row-fluid">
-        {{#each getPlaces}}
-            {{>moves_segments}}
-        {{/each}}
+    
+    <form class="form">
+        <legend>You have {{totalDays}} loaded</legend>
+        <label>Past days to retreve</label>
+        <input type="text" class="movesPastDays"/>
+        
+        <a href="#" class="btn-primary setDays">Go</a>
+    
+    </form>
     </div>
-    <div class="row-fluid">
-        {{#each getActivities}}
-            {{>moves_activities}}
-        {{/each}}
-    </div>
+    
 </template>
 
 <template name="moves_segments">

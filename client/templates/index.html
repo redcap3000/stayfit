@@ -67,15 +67,16 @@
         <ul id="dashboard-menu" class="nav nav-list collapse in">
             <li><a class="home" href="#"><i class="icon-home"></i>Home</a></li>
              <li><a class="showMap" href="#"><i class="icon-map-marker"></i>Map</a></li>
+                        {{#if mapLoaded}}
+                      
+
+            <li><a onclick="plotStoryline()">Plot Activties</a></li>
+            {{/if}}
+              {{#if hasMoves}}<li><a class="movesApi" href="#"><i class="icon-cog"></i>Moves API</a></li>{{/if}}
             <li><a class="newActivity" href="#"><i class="icon-play"></i>New Event</a></li>
             <li><a class="sendReminder" href="#"><i class="icon-bell"></i>Send Reminder</a></li>
-            {{#if hasMoves}}<li><a class="movesApi" href="#"><i class="icon-cog"></i>Moves API</a></li>
             
-            {{#if mapLoaded}}
-            <li><a onclick="plotStoryline()">Plot Activties</a></li>
-            <li><a onclick="user_moves_places.find().fetch().filter(function(arr){arr.segments.filter(function(arr2,i){if(i == 1) setMapCenter([arr2.lat,arr2.lon]);placeNavMarker(arr2.lat,arr2.lon,arr2.name)}) });">Marker Drop</a></li>
-            {{/if}}
-            {{/if}}
+            
         </ul>
         {{/if}}
             

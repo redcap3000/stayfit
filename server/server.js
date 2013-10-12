@@ -183,7 +183,7 @@ Meteor.publish("userLocations",function(userId){
         return user_locations.find({owner:userId});
     }
 });
-
+/*
 Meteor.publish("userMovesPlaces",function(userId){
     if(typeof userId != "undefined" && userId != null){
         return user_moves_places.find({owner:userId});
@@ -196,6 +196,7 @@ Meteor.publish("userMovesActivities",function(userId){
         return user_moves_activities.find({owner:userId});
     }
 });
+*/
 
 Meteor.publish("userMovesStoryline",function(userId){
     if(typeof userId != "undefined" && userId != null){
@@ -521,10 +522,12 @@ Meteor.methods({
             if(typeof days == "undefined"){
                 days = 7;
             }
+                 console.log('here');
+
             // todays day ...
             for(var x = 0;x < days; x++){
                 var the_day =  moment().subtract('days',x).format("YYYYMMDD");
-                Meteor.call("movesApi",userid, "storyline/daily/" + the_day, {trackPoints:true});
+                Meteor.call("movesApi",userid, "storyline/daily/" + the_day, {trackPoints:true},function(error,result) { if(typeof error != "undefined") console.log(error);} );
             }
             
         }

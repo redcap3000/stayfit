@@ -73,8 +73,8 @@ Meteor.startup(function(){
                      //Meteor.call("movesApiStoryline",Meteor.userId());
 
                 // if they are empty then lookup daily activities... this may run frequently with each update ...
-                     var user_moves_locations_sub = Meteor.subscribe("userMovesPlaces",Meteor.userId());
-                     var user_moves_activities_sub = Meteor.subscribe("userMovesActivities",Meteor.userId());
+                     //var user_moves_locations_sub = Meteor.subscribe("userMovesPlaces",Meteor.userId());
+                     //var user_moves_activities_sub = Meteor.subscribe("userMovesActivities",Meteor.userId());
                      var user_moves_storyline_sub = Meteor.subscribe("userMovesStoryline",Meteor.userId());
 
                 
@@ -96,11 +96,7 @@ Meteor.startup(function(){
                     });
                 }
             }
-            
-            if(typeof map != "undefined" & Meteor.userId() ){
-            //  user_moves_places.find().fetch().filter(function(arr){console.log(arr.segments)});
-                user_moves_places.find().fetch().filter(function(arr){arr.segments.filter(function(arr2,x){if(x == 0)setMapCenter([arr2.lat,arr2.lon]); placeNavMarker(arr2.lat,arr2.lon,arr2.name + ":" + arr2.type)}) });
-            }
+        
         
             
             
