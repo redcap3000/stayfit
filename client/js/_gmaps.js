@@ -30,28 +30,35 @@ createMap = function(latLng) {
     // disable this ASAP
 //    setMapCenter();
 },
-placeNavMarker = function(latLng,title) {
+placeNavMarker = function(lat,lng,title,infoHTML) {
+    if(typeof lat != "undefined" && typeof lng != "undefined"){
+        var location = new google.maps.LatLng(lat,lng);
+    }else{
+        return false;
+    }
     if(typeof title == 'undefined'){
         title = 'untitled';
     }
 
     var new_marker = new google.maps.Marker({
-        position: latLng,
+        position: location,
         map: map,
         'title': title
         });
     
-    /*var infoWindow = new google.maps.InfoWindow({
-        content: '<div class="infoWindow"><p>'+title+'</p></div>'
-    });
     
-    infoWindows.push(infoWindow);
-    
-    google.maps.event.addListener(new_marker, 'click', function() {
-        closeInfoWindows();
-        // how to issue template event?
-    };
-    */
+    if(typeof infoHTML != "undefined"){
+        var infoWindow = new google.maps.InfoWindow({
+            content: infoHTML
+        });
+        
+        infoWindows.push(infoWindow);
+        
+        google.maps.event.addListener(new_marker, 'click', function() {
+            closeInfoWindows();
+            // how to issue template event?
+        });
+    }
     gmapsMarkers.push(new_marker);
 },
 // takes either array with two integers (x,y) or a google maps LatLng object.
