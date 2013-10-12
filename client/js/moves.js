@@ -113,7 +113,6 @@ plotStoryline = function(){
             if(typeof arr != "undefined" && arr != null && typeof arr.segments != "undefined" && arr.segments != null)
             arr.segments.filter(
                 function(arr2){
-                    console.log(arr2);
                     // look for arr2.activities or arr2.place
                     if(typeof arr2.activities != "undefined"){
                         arr2.activities.filter(function(activity){
@@ -124,13 +123,14 @@ plotStoryline = function(){
                             // maybe keep track of index to define 'start stop' of an activity ?
                             
                                 activityCoordinates.push(new google.maps.LatLng(point.lat,point.lon) );
-                            
-                            
-                                //placeNavMarker(point.lat,point.lon,activity.activity);
 
                             });
                             
-                            
+                            /*
+                                GMAPS POLYLINE DEFINITION
+                                Find someway to modify color changes .. analyse common routes ala
+                                strava heatmaps?
+                            */
                             var activityPath = new google.maps.Polyline({
                                 path: activityCoordinates,
                                 geodesic: true,

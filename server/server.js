@@ -517,7 +517,6 @@ Meteor.methods({
      */
      
      movesApiStoryline : function(userid,days){
-        console.log('call');
         if(typeof userid != "undefined"){
             if(typeof days == "undefined"){
                 days = 7;
