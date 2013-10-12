@@ -110,6 +110,7 @@ plotStoryline = function(){
 
     user_moves_storyline.find().fetch().filter(
         function(arr){
+            if(typeof arr != "undefined" && arr != null && typeof arr.segments != "undefined" && arr.segments != null)
             arr.segments.filter(
                 function(arr2){
                     console.log(arr2);

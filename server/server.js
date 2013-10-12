@@ -495,10 +495,14 @@ Meteor.methods({
                     }else if(action == "storyline/daily" || typeof parameters.trackPoints != "undefined"){
                         // only support one date to keep track of 'track points'
                         console.log(result.data);
-                        var new_record = result.data[0];
-                        new_record.owner = Meteor.userId();
-                        // can we do upserts yet? please ?
-                        user_moves_storyline.insert(new_record);
+                        if(typeof result != "undefined" && typeof result.data != "undefined" && result.data){
+                            var new_record = result.data[0];
+                            new_record.owner = Meteor.userId();
+                            // can we do upserts yet? please ?
+                            user_moves_storyline.insert(new_record);
+                        }else{
+                            console.log("Storyline/daily did not return a resultset");
+                        }
                     }
                  
                  }) ;
