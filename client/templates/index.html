@@ -72,6 +72,7 @@
             {{#if hasMoves}}<li><a class="movesApi" href="#"><i class="icon-cog"></i>Moves API</a></li>
             
             {{#if mapLoaded}}
+            <li><a onclick="plotStoryline()">Plot Activties</a></li>
             <li><a onclick="user_moves_places.find().fetch().filter(function(arr){arr.segments.filter(function(arr2,i){if(i == 1) setMapCenter([arr2.lat,arr2.lon]);placeNavMarker(arr2.lat,arr2.lon,arr2.name)}) });">Marker Drop</a></li>
             {{/if}}
             {{/if}}

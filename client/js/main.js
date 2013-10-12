@@ -30,12 +30,6 @@ Template.public_view.isVerified = function(){
 Template.public_view.events = {
     "click .accountSubmit" : function(evt,tmpl){
         
-        var inputCode = tmpl.find('.accountVerification').value;
-        
-        if(inputCode){
-            user_settings_sub = Meteor.subscribe("userSettings", Meteor.userId(),inputCode);
-            // set session and let deps and subscribe handle the rest
-        }
     },
     "click .sendCodeSubmit" : function(evt,tmpl){
         var sms = tmpl.find('.smsPhone').value;

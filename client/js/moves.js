@@ -106,3 +106,49 @@ Template.moves.getActivities = function(){
         return new_set;
     }
 };
+plotStoryline = function(){
+
+    user_moves_storyline.find().fetch().filter(
+        function(arr){
+            arr.segments.filter(
+                function(arr2){
+                    console.log(arr2);
+                    // look for arr2.activities or arr2.place
+                    if(typeof arr2.activities != "undefined"){
+                        arr2.activities.filter(function(activity){
+                            // activity , calories , distance , duration, endTime, startTime, trackPoints
+                            // trackPoints : [   { lat,lon,time}  ]
+                            activityCoordinates = [];
+                            activity.trackPoints.filter(function(point){
+                            // maybe keep track of index to define 'start stop' of an activity ?
+                            
+                                activityCoordinates.push(new google.maps.LatLng(point.lat,point.lon) );
+                            
+                            
+                                //placeNavMarker(point.lat,point.lon,activity.activity);
+
+                            });
+                            
+                            
+                            var activityPath = new google.maps.Polyline({
+                                path: activityCoordinates,
+                                geodesic: true,
+                                strokeColor: '#FF0000',
+                                strokeOpacity: 0.5,
+                                strokeWeight: 1
+                              });
+                              
+                            activityPath.setMap(map);
+                            setMapCenter(activityCoordinates[0]);
+                            
+                        });
+                    
+                    }else if(typeof arr2.place != "undefined"){
+                    
+                    }
+                    });
+            }
+    );
+
+
+};

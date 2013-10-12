@@ -1,5 +1,6 @@
 Meteor.startup(function(){
     if(Meteor.userId()){
+        
         var user_events_sub = Meteor.subscribe("userEvents",Meteor.userId());
         var user_activities_sub = Meteor.subscribe("userActivities",Meteor.userId());
         var user_locations_sub = Meteor.subscribe("userLocations",Meteor.userId());
@@ -67,7 +68,10 @@ Meteor.startup(function(){
                 
                 if(typeof the_user_settings.movesCode != "undefined"){
                 // get subscriptions for moves data
-                     Meteor.call("movesApi",Meteor.userId,"activities/daily",{pastDays:7})
+                     //Meteor.call("movesApi",Meteor.userId,"activities/daily",{pastDays:7});
+                             //
+                     //Meteor.call("movesApiStoryline",Meteor.userId());
+
                 // if they are empty then lookup daily activities... this may run frequently with each update ...
                      var user_moves_locations_sub = Meteor.subscribe("userMovesPlaces",Meteor.userId());
                      var user_moves_activities_sub = Meteor.subscribe("userMovesActivities",Meteor.userId());
