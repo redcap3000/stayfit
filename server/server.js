@@ -527,7 +527,16 @@ Meteor.methods({
             // todays day ...
             for(var x = 0;x < days; x++){
                 var the_day =  moment().subtract('days',x).format("YYYYMMDD");
-                Meteor.call("movesApi",userid, "storyline/daily/" + the_day, {trackPoints:true},function(error,result) { if(typeof error != "undefined") console.log(error);} );
+               // force string ?
+                the_day = the_day + '';
+                var pre_check = user_moves_storyline.findOne({owner:userid,date:the_day});
+               if(!pre_check){
+
+                    Meteor.call("movesApi",userid, "storyline/daily/" + the_day, {trackPoints:true},function(error,result) { if(typeof error != "undefined") console.log(error);} );
+               }else{
+               // compare what exists?
+                    console.log('record exists');
+               }
             }
             
         }
