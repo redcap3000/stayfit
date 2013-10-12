@@ -48,7 +48,6 @@ placeNavMarker = function(lat,lng,title,infoHTML) {
     
     
     if(typeof infoHTML != "undefined"){
-        console.log(infoHTML);
         var infoWindow = new google.maps.InfoWindow({
             content: infoHTML
         });

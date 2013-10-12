@@ -35,13 +35,32 @@ Template.moves.events = {
         Meteor.call("movesApiStoryline",Meteor.userId(),q.value);
         
         
+    },
+    "click .setShowDays" : function(evt,tmpl){
+        var q = tmpl.find(".movesShowDays");
+        if(typeof q != "undefined"){
+            alert('here');
+            console.log(q.value);
+            if(typeof q.value != "undefined")
+                Session.set("showDays",q.value);
+            
+            
+        }else{
+            alert('not here');
+        }
+    
     }
 };
 
 Template.moves.totalDays = function(){
 
     return user_moves_storyline.find().fetch().length;
-}
+};
+
+Template.moves.allDaysCount = function(){
+    return Session.get('movesTotalDays');
+};
+
 
 Template.moves.getPlaces = function(){
     var q = user_moves_places.find().fetch();

@@ -198,9 +198,28 @@ Meteor.publish("userMovesActivities",function(userId){
 });
 */
 
-Meteor.publish("userMovesStoryline",function(userId){
-    if(typeof userId != "undefined" && userId != null){
-        return user_moves_storyline.find({owner:userId});
+Meteor.publish("userMovesStoryline",function(userId,showDays){
+    if(typeof userId != "undefined" && userId != null  ) {
+    
+        if(typeof showDays == "undefined"){
+            showDays = 7;
+        }
+    
+    // first lookup via owner and dates less than showDays minus today ...
+    // get 'end of dates'
+        var end_day =  moment().subtract('days',parseInt(showDays)).format("YYYYMMDD");
+        
+        var start_day = moment().format("YYYYMMDD");
+        
+        var dates = [];
+        showDays = parseInt(showDays);
+        // m aybe this isnt an integer ? is show days always undefined?
+        for(var x =0; x < showDays ; x++){
+            dates.push(moment().subtract('days',x).format("YYYYMMDD"));
+        }
+        console.log(dates);
+        
+        return user_moves_storyline.find({owner:userId,date:{"$in" : dates}});
     }
 });
 
@@ -542,6 +561,10 @@ Meteor.methods({
         }
         // automatically get a specific number of days
         // to get track points systematically one day at a time ...
+     },
+     
+     movesApiStorylineCount : function(userId){
+            return user_moves_storyline.find({owner:userId},{date:1}).fetch().length;
      },
      
     fitbitAuth : function(){

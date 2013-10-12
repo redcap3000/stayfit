@@ -67,6 +67,11 @@ Meteor.startup(function(){
                 
                 
                 if(typeof the_user_settings.movesCode != "undefined"){
+                    var showDays = Session.get('showDays');
+                    
+                    if(!showDays){
+                        showDays = "7";
+                    }
                 // get subscriptions for moves data
                      //Meteor.call("movesApi",Meteor.userId,"activities/daily",{pastDays:7});
                              //
@@ -75,7 +80,9 @@ Meteor.startup(function(){
                 // if they are empty then lookup daily activities... this may run frequently with each update ...
                      //var user_moves_locations_sub = Meteor.subscribe("userMovesPlaces",Meteor.userId());
                      //var user_moves_activities_sub = Meteor.subscribe("userMovesActivities",Meteor.userId());
-                     var user_moves_storyline_sub = Meteor.subscribe("userMovesStoryline",Meteor.userId());
+                     var user_moves_storyline_sub = Meteor.subscribe("userMovesStoryline",Meteor.userId(),showDays);
+                    
+                     Meteor.call("movesApiStorylineCount",Meteor.userId(),function(error,result){Session.set('movesTotalDays',result);});
 
                 
                 }
