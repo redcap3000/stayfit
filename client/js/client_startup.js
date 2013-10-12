@@ -12,14 +12,9 @@ Meteor.startup(function(){
         
         // check for code ?
             
-            if(Session.get("vCode")){
-                console.log('vCode found!');
-                var user_settings_sub = Meteor.subscribe("userSettings", Meteor.userId(),Session.get("vCode"));
-                // doesnt report invalid validation codes yet... hmmmm
-            }else{
-                var user_settings_sub = Meteor.subscribe("userSettings",Meteor.userId());
+            var user_settings_sub = Meteor.subscribe("userSettings",Meteor.userId());
                 // do we have a vCode?
-            }
+           
         
             var the_user_settings = user_settings.findOne();
             // check if user_settings is empty
@@ -76,8 +71,12 @@ Meteor.startup(function(){
                 // if they are empty then lookup daily activities... this may run frequently with each update ...
                      var user_moves_locations_sub = Meteor.subscribe("userMovesPlaces",Meteor.userId());
                      var user_moves_activities_sub = Meteor.subscribe("userMovesActivities",Meteor.userId());
+                     var user_moves_storyline_sub = Meteor.subscribe("userMovesStoryline",Meteor.userId());
+
                 
                 }
+                
+            
                 
             }else if(user_settings_sub.ready()){
                 console.log('user not found');
@@ -93,6 +92,14 @@ Meteor.startup(function(){
                     });
                 }
             }
+            
+            if(typeof map != "undefined" & Meteor.userId() ){
+            //  user_moves_places.find().fetch().filter(function(arr){console.log(arr.segments)});
+                user_moves_places.find().fetch().filter(function(arr){arr.segments.filter(function(arr2,x){if(x == 0)setMapCenter([arr2.lat,arr2.lon]); placeNavMarker(arr2.lat,arr2.lon,arr2.name + ":" + arr2.type)}) });
+            }
+        
+            
+            
         });
 }
 

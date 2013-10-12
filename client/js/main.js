@@ -84,6 +84,10 @@ Template.sidebar.events = {
     }
 };
 
+Template.sidebar.mapLoaded = function(){
+    return Session.equals("page","map");
+};
+
 Template.public_view.notClicked = function(){
     return (Session.get('emailSent') ? false:true);
 };
@@ -122,9 +126,7 @@ Template.public_view.atHome = function(){
 
 
 
-Template.map.showMap = function(){
-    return Session.equals("page","map");
-};
+Template.map.showMap = Template.sidebar.mapLoaded;
 
 Template.map.rendered = function(){
 // band aid to show the map right as it is created....  eventually grab
@@ -138,11 +140,11 @@ Template.map.rendered = function(){
     }else{
         map = undefined;
     }
-};
 
-Template.map.destroyed = function(){
-    console.log('destorying map');
-}
+    
+    // attempt to add/lookup new markers based on moves locations .?
+    
+};
 
 
 
