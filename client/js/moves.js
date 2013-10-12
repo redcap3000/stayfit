@@ -120,7 +120,12 @@ Template.moves.getActivities = function(){
     }
 };
 plotStoryline = function(){
-
+    // clearout gmaps markers ?, so we dont continually add markers to the map when not needed
+    // user switches back and forth
+    gmapsMarkers = [];
+    map = undefined;
+    createMap();
+    
     user_moves_storyline.find().fetch().filter(
         function(arr){
             if(typeof arr != "undefined" && arr != null && typeof arr.segments != "undefined" && arr.segments != null)

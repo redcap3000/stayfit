@@ -82,6 +82,12 @@ Template.sidebar.mapLoaded = function(){
     return Session.equals("page","map");
 };
 
+Template.sidebar.totalMoves = function(){
+    
+    return user_moves_storyline.find().fetch().length;
+
+}
+
 Template.public_view.notClicked = function(){
     return (Session.get('emailSent') ? false:true);
 };
