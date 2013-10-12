@@ -32,7 +32,7 @@ Template.moves.events = {
     "click .setDays" : function(evt,tmpl){
         var q = tmpl.find(".movesPastDays");
         
-        Meteor.call("movesApiStoryline",Meteor.userId(),q.value,function(error,result){if(typeof error == "undefined")Session.set("page","map") });
+        Meteor.call("movesApiStoryline",Meteor.userId(),q.value);
         
         
     }
