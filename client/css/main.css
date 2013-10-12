@@ -1,3 +1,5 @@
+/* @override http://localhost:3000/client/css/main.css?51f0bda86b72dc8978804d58c22083a5760b0a05 */
+
 /* @override http://localhost:3000/client/css/main.css?9b4ad11d806bd8ef11936d32fe8e285a6fdd523a */
 
 /* @override http://localhost:3000/client/css/main.css?daa54d387bafab9c902884c718fac695b1152a87 */
@@ -27,6 +29,9 @@ label.status{
  font-weight: bold;
  font-variant: small-caps;
 }
+
+
+
 h1{
     color:black;
 }
@@ -164,11 +169,10 @@ div.infoWindow p strong {
 
 #map_canvas { 
 position: absolute;
-  top: 0;
-  left: 15%;
+  top: 3em;
+  left: 18em;  
   height: 100%;
-  width: 85%;
-  min-width: 30em;
+  width: 75%;
   z-index: 1000;
   float: right;
 }
