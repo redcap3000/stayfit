@@ -48,6 +48,7 @@ placeNavMarker = function(lat,lng,title,infoHTML) {
     
     
     if(typeof infoHTML != "undefined"){
+        console.log(infoHTML);
         var infoWindow = new google.maps.InfoWindow({
             content: infoHTML
         });
@@ -56,6 +57,7 @@ placeNavMarker = function(lat,lng,title,infoHTML) {
         
         google.maps.event.addListener(new_marker, 'click', function() {
             closeInfoWindows();
+            infoWindow.open(map,new_marker);
             // how to issue template event?
         });
     }

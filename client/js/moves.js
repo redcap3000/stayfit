@@ -128,15 +128,28 @@ plotStoryline = function(){
     
     user_moves_storyline.find().fetch().filter(
         function(arr){
-            if(typeof arr != "undefined" && arr != null && typeof arr.segments != "undefined" && arr.segments != null)
+            if(typeof arr != "undefined" && arr != null && typeof arr.segments != "undefined" && arr.segments != null){
+            var infoWindow = '<div class="well"><table class="table"><thead><tr><th>Activity</th><th>Calories</th><th>Miles</th></thead><tbody>';
+
             arr.segments.filter(
                 function(arr2){
                     // look for arr2.activities or arr2.place
                     if(typeof arr2.activities != "undefined"){
-                        arr2.activities.filter(function(activity){
                             // activity , calories , distance , duration, endTime, startTime, trackPoints
+                            // put this data in info window ????
+                        
+                        
+                        arr2.activities.filter(function(activity){
                             // trackPoints : [   { lat,lon,time}  ]
                             activityCoordinates = [];
+                            var distance = activity.distance;
+                            distance *= 0.000621371192;
+                            distance = Math.round(distance*100)/100;
+                            
+                            
+                            infoWindow += "<tr><td>" +activity.activity + "</td><td>" + (typeof activity.calories != "undefined" ? activity.calories:'&nbsp') + '</td><td> ' + distance + "</td></tr>";
+
+                            
                             activity.trackPoints.filter(function(point){
                             // maybe keep track of index to define 'start stop' of an activity ?
                             
@@ -164,12 +177,14 @@ plotStoryline = function(){
                     
                     }
                     if(typeof arr2.place != "undefined"){
+                    
                         // add a nav marker to the place location and add name??
-                        placeNavMarker(arr2.place.location.lat,arr2.place.location.lon,arr2.place.name);
-                        console.log(arr2.place);
+                        placeNavMarker(arr2.place.location.lat,arr2.place.location.lon,arr2.place.name,infoWindow + "</tbody></table></div>");
+                        //console.log(arr2.place);
                     }
                     });
             }
+        }
     );
 
 
