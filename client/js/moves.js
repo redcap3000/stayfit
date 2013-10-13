@@ -155,6 +155,7 @@ plotStoryline = function(){
                             // activity , calories , distance , duration, endTime, startTime, trackPoints
                             // put this data in info window ????
                         
+                        var dayActLength = arr2.activities.length;
                         
                         arr2.activities.filter(function(activity){
                             // trackPoints : [   { lat,lon,time}  ]
@@ -193,7 +194,8 @@ plotStoryline = function(){
 //                                console.log(lineColor);
                                 // use rbg to do gradients ? 
                                 lineColor = (lineColor == "wlk" ? "red" : ( lineColor == "cyc" ? "blue" : ( lineColor == "trp" ? "green" : "#FF0000" ) ) );
-                                
+                                var lineOpacity = (activity.activity == 'cyc' ? .15 + (activity.calories/distance) : (activity.activity == "wlk" ? .5:.25));
+                                var lineWeight = distance / (activity.calories % distance);
 //                                console.log(lineColor);
                                 /*
                                     GMAPS POLYLINE DEFINITION
@@ -204,8 +206,8 @@ plotStoryline = function(){
                                     path: activityCoordinates,
                                     geodesic: true,
                                     strokeColor: lineColor,
-                                    strokeOpacity:  .15 + (distance/activity.calories),
-                                    strokeWeight:   distance / (showDays % distance)
+                                    strokeOpacity:  lineOpacity,
+                                    strokeWeight:   lineWeight
                                   });
                                   
                                 activityPath.setMap(map);
