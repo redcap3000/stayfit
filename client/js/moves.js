@@ -142,7 +142,7 @@ plotStoryline = function(){
     gmapsMarkers = [];
     map = undefined;
     createMap();
-    
+    var showDays = Session.get('showDays');
     user_moves_storyline.find().fetch().filter(
         function(arr){
             if(typeof arr != "undefined" && arr != null && typeof arr.segments != "undefined" && arr.segments != null){
@@ -166,30 +166,53 @@ plotStoryline = function(){
                             
                             infoWindow += "<tr><td>" +activity.activity + "</td><td>" + (typeof activity.calories != "undefined" ? activity.calories:'&nbsp') + '</td><td> ' + distance + "</td></tr>";
 
+                            var pointCount = activity.trackPoints.length - 1;
                             
-                            activity.trackPoints.filter(function(point){
-                            // maybe keep track of index to define 'start stop' of an activity ?
+                            // ignore points that have very few points compared to its distance..
                             
-                                activityCoordinates.push(new google.maps.LatLng(point.lat,point.lon) );
+                            
+                    //        if(distance / pointCount > 0.009){
+                            
+                            
+//                            console.log(distance/pointCount);
+                                
+                                //console.log(pointCount/distance);
+                                activity.trackPoints.filter(function(point,i){
+                                // maybe keep track of index to define 'start stop' of an activity ?
+                                
+                                    activityCoordinates.push(new google.maps.LatLng(point.lat,point.lon) );
+                                    if(i == pointCount){
+                                        // add a special marker to the end ... do we assume the start marker is arr2 place?
+                                    }
 
-                            });
-                            
-                            /*
-                                GMAPS POLYLINE DEFINITION
-                                Find someway to modify color changes .. analyse common routes ala
-                                strava heatmaps?
-                            */
-                            var activityPath = new google.maps.Polyline({
-                                path: activityCoordinates,
-                                geodesic: true,
-                                strokeColor: '#FF0000',
-                                strokeOpacity: 0.5,
-                                strokeWeight: 1
-                              });
-                              
-                            activityPath.setMap(map);
-                            setMapCenter(activityCoordinates[0]);
-                            
+                                });
+                                
+                                
+                                var lineColor = activity.activity;
+                                
+//                                console.log(lineColor);
+                                // use rbg to do gradients ? 
+                                lineColor = (lineColor == "wlk" ? "red" : ( lineColor == "cyc" ? "blue" : ( lineColor == "trp" ? "green" : "#FF0000" ) ) );
+                                
+//                                console.log(lineColor);
+                                /*
+                                    GMAPS POLYLINE DEFINITION
+                                    Find someway to modify color changes .. analyse common routes ala
+                                    strava heatmaps?
+                                */
+                                var activityPath = new google.maps.Polyline({
+                                    path: activityCoordinates,
+                                    geodesic: true,
+                                    strokeColor: lineColor,
+                                    strokeOpacity:  .15 + (distance/activity.calories),
+                                    strokeWeight:   distance / (showDays % distance)
+                                  });
+                                  
+                                activityPath.setMap(map);
+                                setMapCenter(activityCoordinates[0]);
+                        //    }else{
+                          //      console.log('not plotting');
+                         //   }
                         });
                     
                     }

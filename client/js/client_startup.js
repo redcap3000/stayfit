@@ -20,14 +20,14 @@ Meteor.startup(function(){
             var the_user_settings = user_settings.findOne();
             // check if user_settings is empty
             if(the_user_settings){
-                console.log('user found');
-                console.log(the_user_settings);
+                //console.log('user found');
+                //console.log(the_user_settings);
                 
                 if(typeof the_user_settings.movesCode == "undefined"){
                     if(!Session.get('movesCode')){
                         // maybe do a simplier check..
                         var access_token = window.location.href.split("&");
-                        console.log(access_token);
+                        //console.log(access_token);
                         if(access_token.length > 1 ){
                             access_token = access_token[0].split("?code=")[1];
                             Session.set('movesCode', access_token);
@@ -55,14 +55,14 @@ Meteor.startup(function(){
                             console.log('Problem with moves request token');
                             console.log(error);
                         }else{
-                            console.log('token obtained');
-                            console.log(result);
+                            //console.log('token obtained');
+                            //console.log(result);
                              //window.location.replace(result);
                         }
                     
                     });
                     Session.set('movesRequestToken',1);
-                    console.log('moves token active');
+                    //console.log('moves token active');
                 }
                 
                 
@@ -90,23 +90,19 @@ Meteor.startup(function(){
             
                 
             }else if(user_settings_sub.ready()){
-                console.log('user not found');
+                //console.log('user not found');
                 // create a new user settings ...
                 if(Meteor.userId()){
                     Meteor.call('newUserSettings',Meteor.userId(),function(error,result){
                         if(typeof error == 'undefined'){
-                            console.log('made user');
-                            console.log(result);
+//                            console.log('made user');
+  //                          console.log(result);
                             // this is the vcode next do sub from here >?
                             }
                         // next do call to check if code has been entered yet based on status
                     });
                 }
             }
-        
-        
-            
-            
         });
 }
 
