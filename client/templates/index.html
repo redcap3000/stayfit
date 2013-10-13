@@ -70,7 +70,9 @@
                         {{#if mapLoaded}}
                       
 
-            <li><a onclick="plotStoryline()">Plot {{totalMoves}} Days</a></li>
+            <li><a onclick="plotStoryline();">Plot {{totalMoves}} Days</a></li>
+            
+            <li><a onclick="toggleMarkers();">Toggle Markers</a></li>
             {{/if}}
               {{#if hasMoves}}<li><a class="movesApi" href="#"><i class="icon-cog"></i>Moves API</a></li>{{/if}}
             <li><a class="newActivity" href="#"><i class="icon-play"></i>New Event</a></li>

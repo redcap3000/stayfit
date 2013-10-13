@@ -136,6 +136,14 @@ Template.moves.getActivities = function(){
         return new_set;
     }
 };
+
+toggleMarkers = function(){
+    if(typeof gmapsMarkers != "undefined"){
+        gmapsMarkers.filter(function(arr){
+            return arr.setVisible(!arr.visible);
+        });
+    }
+};
 plotStoryline = function(){
     // clearout gmaps markers ?, so we dont continually add markers to the map when not needed
     // user switches back and forth
