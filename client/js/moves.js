@@ -194,7 +194,7 @@ plotStoryline = function(){
 //                                console.log(lineColor);
                                 // use rbg to do gradients ? 
                                 lineColor = (lineColor == "wlk" ? "red" : ( lineColor == "cyc" ? "blue" : ( lineColor == "trp" ? "green" : "#FF0000" ) ) );
-                                var lineOpacity = (activity.activity == 'cyc' ? .15 + (activity.calories/distance) : (activity.activity == "wlk" ? .5:.25));
+                                var lineOpacity = (activity.activity == 'cyc' ? .35 : (activity.activity == "wlk" ? .5:.25));
                                 var lineWeight = distance / (activity.calories % distance);
 //                                console.log(lineColor);
                                 /*
